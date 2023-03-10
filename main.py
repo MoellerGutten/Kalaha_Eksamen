@@ -4,7 +4,7 @@ import math
 pg.init()
 
 width = 1000
-height = 700
+height = 1000
 
 pi = math.pi
 
@@ -12,6 +12,11 @@ res = [width, height]
 
 white = (255, 255, 255)
 screen_display = pg.display
+
+window_icon = pg.image.load( "window_icon.png")
+
+pg.display.set_caption("Kalaha",)
+pg.display.set_icon(window_icon)
 
 surface = screen_display.set_mode(res)
 
