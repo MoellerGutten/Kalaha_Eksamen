@@ -22,6 +22,8 @@ surface = screen_display.set_mode(res)
 
 ball = pg.image.load("Kalaha_Kugle.png")
 
+gamestate = "start_menu"
+
 
 def generate(n):
         ball_x = ball.get_size()[0]
@@ -59,14 +61,35 @@ def generate(n):
 
         surface.blit(ball, (pos_x, pos_y))
 
+
+def draw_game():
+    surface.fill(white)
+    generate(10)
+    screen_display.update()
+
+
+def draw_start_screen():
+    surface.fill(white)
+    font = pg.font.SysFont('arial', 40)
+    title = font.render('Kalaha', True, (0,0,0))
+    start_button = font.render('Start', True, (0,0,0))
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2))
+    surface.blit(start_button, (width / 2 - start_button.get_width() / 2, height/ 2 + start_button.get_height() / 2))
+    pg.display.update()
+
+
 window = True
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             window = False
+    if gamestate == "start_menu":
+        draw_start_screen()
+        keys = pg.key.get_pressed()
+        if keys[pg.K_SPACE]:
+            gamestate = "game"
+    if gamestate == "game":
+        draw_game()
 
-    surface.fill(white)
-    generate(10)
-    screen_display.update()
 
 pg.quit()
