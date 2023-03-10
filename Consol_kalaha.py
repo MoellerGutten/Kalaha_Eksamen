@@ -1,6 +1,6 @@
 
 
-board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+board = [6, 10, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
 
 
 def print_board():
@@ -18,6 +18,8 @@ def move(location, amount, player1_turn):
     else:
         for i in range(amount):
             location -= 1
+            if location == -8:
+                location -= 1
             board[location] += 1
 
 
