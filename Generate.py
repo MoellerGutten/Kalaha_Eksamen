@@ -2,6 +2,11 @@ import pygame as pg
 import random
 import math
 
+
+#OBSOLETE FILE, SE main.py !!!
+#OBSOLETE FILE, SE main.py !!!
+#OBSOLETE FILE, SE main.py !!!
+
 pg.init()
 
 width = 1000
