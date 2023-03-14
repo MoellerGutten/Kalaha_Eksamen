@@ -11,9 +11,12 @@ pi = math.pi
 res = [width, height]
 
 white = (255, 255, 255)
-grey = (105,105,105)
-dark_grey = (55,55,55)
+light_grey = (197,197,197)
+grey = (100,100,100)
 black = (0,0,0)
+
+offset = 100
+
 screen_display = pg.display
 
 window_icon = pg.image.load( "window_icon.png")
@@ -30,15 +33,14 @@ gamestate = "start_menu"
 
 # Template from S0
 class Button():
-    def __init__(self, color, button_width, button_height,  center, text=''):
+    def __init__(self, color, button_width, button_height, index, text=''):
         self.color = color
         self.button_width = button_width
         self.button_height = button_height
-        self.center = center
         self.text = text
-        self.offset = 100
+        self.index = index
         self.x = width / 2 - self.button_width / 2
-        self.y = height / 2 - self.button_height / 2 + self.offset
+        self.y = height / 2 - self.button_height / 2 + offset * self.index
 
     def draw(self, surface, border_width, outline):
         # Call this method to draw the button on the screen
@@ -50,21 +52,23 @@ class Button():
         pg.draw.rect(surface, self.color, (self.x, self.y, self.button_width, self.button_height), 0)
 
         if self.text != '':
-            font = pg.font.SysFont('comicsans', 40)
-            text = font.render(self.text, True, white)
+            font = pg.font.SysFont('arial', 40)
+            text = font.render(self.text, True, black)
             # Parameters in order of apperance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
-    def isOver(self, pos):
+    def isOver(self):
         # Pos is the mouse position or a tuple of (x,y) coordinates
+        pos = pg.mouse.get_pos()
         if pos[0] > self.x and pos[0] < self.x + self.button_width:
             if pos[1] > self.y and pos[1] < self.y + self.button_height:
+                self.color = grey
+                self.draw(surface, 5, outline=black)
                 return True
-
         return False
 
     def isClicked(self):
-        if event.type == pg.MOUSEBUTTONUP and self.isOver(pg.mouse.get_pos()):
+        if event.type == pg.MOUSEBUTTONUP and self.isOver():
             return True
         return False
 
@@ -112,20 +116,45 @@ def draw_game():
     screen_display.update()
 
 
+def draw_leaderboard():
+    surface.fill(white)
+
+    global gamestate
+
+    font = pg.font.SysFont('arial', 40)
+    title = font.render('Leaderboard', True, black)
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+
+    pg.display.update()
+
+
 def draw_start_screen():
     surface.fill(white)
-    font = pg.font.SysFont('arial', 40)
+
+    global gamestate
+
+    font = pg.font.SysFont('arial', 80)
     title = font.render('Kalaha', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2))
-    # To center, it currently has to be updated by hand
-    button1 = Button(black, 200,  75,  True, "Start Spil")
-    button1.draw(surface, 5, outline=grey)
-    if button1.isOver(pg.mouse.get_pos()):
-        button1.color = dark_grey
-        button1.draw(surface, 5, outline=grey)
-        if button1.isClicked():
-            global gamestate
-            gamestate = "game"
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+
+    button_start = Button(light_grey, 300,  75, 0, "Start Spil")
+    button_start.draw(surface, 5, outline=black)
+    button_start.isOver()
+    if button_start.isClicked():
+        gamestate = "game"
+
+    button_leaderboard = Button(light_grey, 300, 75, 1, "Leaderboard")
+    button_leaderboard.draw(surface, 5, outline=black)
+    button_leaderboard.isOver()
+    if button_leaderboard.isClicked():
+        gamestate = "leaderboard"
+
+    button_quit = Button(light_grey, 300, 75, 2, "Quit")
+    button_quit.draw(surface, 5, outline=black)
+    button_quit.isOver()
+    if button_quit.isClicked():
+        gamestate = "quit"
+
     pg.display.update()
 
 
@@ -138,6 +167,10 @@ while window:
         draw_start_screen()
     if gamestate == "game":
         draw_game()
+    if gamestate == "leaderboard":
+        draw_leaderboard()
+    if gamestate == "quit":
+        window = False
 
 
 pg.quit()
