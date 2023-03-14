@@ -11,15 +11,15 @@ pi = math.pi
 res = [width, height]
 
 white = (255, 255, 255)
-light_grey = (197,197,197)
-grey = (100,100,100)
-black = (0,0,0)
+light_grey = (197, 197, 197)
+grey = (100, 100, 100)
+black = (0, 0, 0)
 
 offset = 100
 
 screen_display = pg.display
 
-window_icon = pg.image.load( "window_icon.png")
+window_icon = pg.image.load("window_icon.png")
 
 pg.display.set_caption("Kalaha",)
 pg.display.set_icon(window_icon)
@@ -32,7 +32,7 @@ gamestate = "start_menu"
 
 
 # Template from S0
-class Button():
+class Button:
     def __init__(self, color, button_width, button_height, index, text=''):
         self.color = color
         self.button_width = button_width
@@ -60,8 +60,8 @@ class Button():
     def isOver(self):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         pos = pg.mouse.get_pos()
-        if pos[0] > self.x and pos[0] < self.x + self.button_width:
-            if pos[1] > self.y and pos[1] < self.y + self.button_height:
+        if self.x < pos[0] < self.x + self.button_width:
+            if self.y < pos[1] < self.y + self.button_height:
                 self.color = grey
                 self.draw(surface, 5, outline=black)
                 return True
@@ -74,40 +74,40 @@ class Button():
 
 
 def generate(n):
-        ball_x = ball.get_size()[0]
-        ball_y = ball.get_size()[1]
+    ball_x = ball.get_size()[0]
+    ball_y = ball.get_size()[1]
 
-        pos_x = (res[0] - ball_x) / 2
-        pos_y = (res[1] - ball_y) / 2
+    pos_x = (res[0] - ball_x) / 2
+    pos_y = (res[1] - ball_y) / 2
 
-        if n > 1:
-            points1 = []
-            points2 = []
+    if n > 1:
+        points1 = []
+        points2 = []
 
+        for i in range(n):
+            if n < 6:
+                angle = i * (2 * pi / (n - 1))
+                x = math.cos(angle) * ball_x + pos_x
+                y = math.sin(angle) * ball_x + pos_y
+                points1.append((x, y))
+                surface.blit(ball, points1[i])
+                if i == 5:
+                    break
+            else:
+                angle = i * (2 * pi / (6 - 1))
+                x = math.cos(angle) * ball_x + pos_x
+                y = math.sin(angle) * ball_x + pos_y
+                points1.append((x, y))
+                surface.blit(ball, points1[i])
+        if n > 6:
             for i in range(n):
-                if n < 6:
-                    angle = i * (2 * pi / (n - 1))
-                    x = math.cos(angle) * ball_x + pos_x
-                    y = math.sin(angle) * ball_x + pos_y
-                    points1.append((x, y))
-                    surface.blit(ball, points1[i])
-                    if i == 5:
-                        break
-                else:
-                    angle = i * (2 * pi / (6 - 1))
-                    x = math.cos(angle) * ball_x + pos_x
-                    y = math.sin(angle) * ball_x + pos_y
-                    points1.append((x, y))
-                    surface.blit(ball, points1[i])
-            if n > 6:
-                for i in range(n):
-                    angle = i * (2 * pi / (n - 6))
-                    x = math.cos(angle) * ball_x * 2 + pos_x
-                    y = math.sin(angle) * ball_x * 2 + pos_y
-                    points2.append((x, y))
-                    surface.blit(ball, points2[i])
+                angle = i * (2 * pi / (n - 6))
+                x = math.cos(angle) * ball_x * 2 + pos_x
+                y = math.sin(angle) * ball_x * 2 + pos_y
+                points2.append((x, y))
+                surface.blit(ball, points2[i])
 
-        surface.blit(ball, (pos_x, pos_y))
+    surface.blit(ball, (pos_x, pos_y))
 
 
 def draw_game():
