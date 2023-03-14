@@ -27,16 +27,18 @@ ball = pg.image.load("Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
-#Template from S0
-class button():
-    def __init__(self, color, x, y, button_width, button_height,  text=''):
+
+# Template from S0
+class Button():
+    def __init__(self, color, button_width, button_height,  center, text=''):
         self.color = color
-        self.x = x
-        self.y = y
         self.button_width = button_width
         self.button_height = button_height
+        self.center = center
         self.text = text
-
+        self.offset = 100
+        self.x = width / 2 - self.button_width / 2
+        self.y = height / 2 - self.button_height / 2 + self.offset
 
     def draw(self, surface, border_width, outline):
         # Call this method to draw the button on the screen
@@ -49,10 +51,9 @@ class button():
 
         if self.text != '':
             font = pg.font.SysFont('comicsans', 40)
-            text = font.render(self.text, True, (white))
+            text = font.render(self.text, True, white)
             # Parameters in order of apperance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
-
 
     def isOver(self, pos):
         # Pos is the mouse position or a tuple of (x,y) coordinates
@@ -116,7 +117,8 @@ def draw_start_screen():
     font = pg.font.SysFont('arial', 40)
     title = font.render('Kalaha', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2))
-    button1 = button(black, (width / 2) - 100 / 2, (height/ 2 )+ 50 / 2, 100,50,"hej")
+    # To center, it currently has to be updated by hand
+    button1 = Button(black, 200,  75,  True, "Start Spil")
     button1.draw(surface, 5, outline=grey)
     if button1.isOver(pg.mouse.get_pos()):
         button1.color = dark_grey
