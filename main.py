@@ -12,6 +12,7 @@ res = [width, height]
 
 white = (255, 255, 255)
 grey = (105,105,105)
+dark_grey = (55,55,55)
 black = (0,0,0)
 screen_display = pg.display
 
@@ -26,7 +27,7 @@ ball = pg.image.load("Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
-
+#Template from S0
 class button():
     def __init__(self, color, x, y, button_width, button_height,  text=''):
         self.color = color
@@ -40,13 +41,16 @@ class button():
     def draw(self, surface, border_width, outline):
         # Call this method to draw the button on the screen
         if outline and border_width:
+            # Parameters in order of apperance: (pygame display, outline colour, x position, y position, button width, button height, border curvature)
             pg.draw.rect(surface, outline, (self.x - border_width, self.y - border_width, self.button_width + (border_width*2), self.button_height + (border_width*2)), 0)
 
+        # Same as above
         pg.draw.rect(surface, self.color, (self.x, self.y, self.button_width, self.button_height), 0)
 
         if self.text != '':
             font = pg.font.SysFont('comicsans', 40)
             text = font.render(self.text, True, (white))
+            # Parameters in order of apperance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
 
@@ -56,6 +60,11 @@ class button():
             if pos[1] > self.y and pos[1] < self.y + self.button_height:
                 return True
 
+        return False
+
+    def isClicked(self):
+        if event.type == pg.MOUSEBUTTONUP and self.isOver(pg.mouse.get_pos()):
+            return True
         return False
 
 
@@ -106,11 +115,15 @@ def draw_start_screen():
     surface.fill(white)
     font = pg.font.SysFont('arial', 40)
     title = font.render('Kalaha', True, black)
-    start_button = font.render('Start', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2))
-    surface.blit(start_button, (width / 2 - start_button.get_width() / 2, height/ 2 + start_button.get_height() / 2))
-    button1 = button(black, 100,100,100,50,"hej")
+    button1 = button(black, (width / 2) - 100 / 2, (height/ 2 )+ 50 / 2, 100,50,"hej")
     button1.draw(surface, 5, outline=grey)
+    if button1.isOver(pg.mouse.get_pos()):
+        button1.color = dark_grey
+        button1.draw(surface, 5, outline=grey)
+        if button1.isClicked():
+            global gamestate
+            gamestate = "game"
     pg.display.update()
 
 
@@ -121,9 +134,6 @@ while window:
             window = False
     if gamestate == "start_menu":
         draw_start_screen()
-        keys = pg.key.get_pressed()
-        if keys[pg.K_SPACE]:
-            gamestate = "game"
     if gamestate == "game":
         draw_game()
 
