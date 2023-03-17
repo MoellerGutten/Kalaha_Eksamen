@@ -1,6 +1,6 @@
 import pygame as pg
 import math
-from buttonclass import Button
+from buttonclass import *
 
 pg.init()
 
@@ -71,7 +71,17 @@ def generate(n):
 
 def draw_game():
     surface.fill(white)
+
+    global gamestate
+
     generate(7)
+
+    back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
+    back_button.draw(surface, 5, outline=black)
+    back_button.isOver()
+    if back_button.isClicked():
+        gamestate = "start_menu"
+
     screen_display.update()
 
 
@@ -83,6 +93,12 @@ def draw_leaderboard():
     font = pg.font.SysFont('arial', 40)
     title = font.render('Leaderboard', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+
+    back_button = backButton(light_grey,50,50, 200,  50, 0, "Back")
+    back_button.draw(surface,5,outline=black)
+    back_button.isOver()
+    if back_button.isClicked():
+        gamestate = "start_menu"
 
     pg.display.update()
 
@@ -96,7 +112,7 @@ def draw_start_screen():
     title = font.render('Kalaha', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
 
-    button_start = Button(light_grey, 300,  75, 0, "Start Spil")
+    button_start = Button(light_grey, 300,  75, 0, "Start Game")
     button_start.draw(surface, 5, outline=black)
     button_start.isOver()
     if button_start.isClicked():

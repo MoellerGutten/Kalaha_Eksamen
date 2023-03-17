@@ -60,3 +60,15 @@ class Button:
             if event.type == pg.MOUSEBUTTONUP and self.isOver():
                 return True
             return False
+
+
+class backButton(Button):
+    def __init__(self, color,  x, y, button_width, button_height, index, text=''):
+        Button.__init__(self, color, button_width, button_height, index, text='')
+        self.color = color
+        self.button_width = button_width
+        self.button_height = button_height
+        self.text = text
+        self.index = index
+        self.x = x
+        self.y = y
