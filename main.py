@@ -31,6 +31,8 @@ ball = pg.image.load("Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
+img_button = imgButton("Kalaha_cut.png")
+
 
 def generate(n):
     ball_x = ball.get_size()[0]
@@ -74,7 +76,11 @@ def draw_game():
 
     global gamestate
 
-    generate(7)
+    img_button.draw(5, 440)
+    img_button.isOver(5,440)
+    if img_button.isClicked():
+        img_button.move_button()
+        print("Test")
 
     back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
     back_button.draw(surface, 5, outline=black)

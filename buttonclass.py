@@ -1,5 +1,4 @@
 import pygame as pg
-
 pg.init()
 
 width = 1000
@@ -72,3 +71,33 @@ class backButton(Button):
         self.index = index
         self.x = x
         self.y = y
+
+
+class imgButton:
+    def __init__(self, img):
+        self.img = pg.image.load(img)
+        self.button_width = self.img.get_width()
+        self.button_height = self.img.get_height()
+        self.imgRect = self.img.get_rect()
+
+    def draw(self, x, y):
+        surface.blit(self.img, (x,y))
+
+    def isOver(self, x, y):
+        # Pos is the mouse position or a tuple of (x,y) coordinates
+        pos = pg.mouse.get_pos()
+        if x < pos[0] < x + self.button_width:
+            if y < pos[1] < y + self.button_height:
+                return True
+        return False
+
+    def isClicked(self):
+        for event in pg.event.get():
+            if event.type == pg.MOUSEBUTTONUP and self.isOver(5,440):
+                return True
+            return False
+
+    def move_button(self):
+        self.imgRect = self.imgRect.move((0,1))
+
+        screen_display.update()
