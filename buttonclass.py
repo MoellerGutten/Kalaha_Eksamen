@@ -44,11 +44,16 @@ class Button:
             # Parameters in order of appearance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
-    def isClicked(self):
-        for event in pg.event.get():
-            if event.type == pg.MOUSEBUTTONUP and self.isOver():
+    def isOver(self):
+        # Pos is the mouse position or a tuple of (x,y) coordinates
+        pos = pg.mouse.get_pos()
+        self.color = light_grey
+        if self.x < pos[0] < self.x + self.button_width:
+            if self.y < pos[1] < self.y + self.button_height:
+                self.color = grey
                 return True
-            return False
+        return False
+
 
 
 class backButton(Button):
@@ -64,30 +69,25 @@ class backButton(Button):
 
 
 class imgButton:
-    def __init__(self, img):
+    def __init__(self, img, x, y):
         self.img = pg.image.load(img)
         self.button_width = self.img.get_width()
         self.button_height = self.img.get_height()
         self.imgRect = self.img.get_rect()
+        self.x = x
+        self.y = y
 
-    def draw(self, x, y):
-        surface.blit(self.img, (x,y))
+    def draw(self):
+        surface.blit(self.img, (self.x,self.y))
 
-    def isOver(self, x, y):
+    def isOver(self):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         pos = pg.mouse.get_pos()
-        if x < pos[0] < x + self.button_width:
-            if y < pos[1] < y + self.button_height:
+        if self.x < pos[0] < self.x + self.button_width:
+            if self.y < pos[1] < self.y + self.button_height:
                 return True
         return False
 
-    def isClicked(self):
-        for event in pg.event.get():
-            if event.type == pg.MOUSEBUTTONUP and self.isOver(5,440):
-                return True
-            return False
+    def move_button(self, stepsize):
+        self.imgRect = self.imgRect.move((0,stepsize))
 
-    def move_button(self):
-        self.imgRect = self.imgRect.move((0,1))
-
-        screen_display.update()
