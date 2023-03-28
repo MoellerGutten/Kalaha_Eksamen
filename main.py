@@ -1,8 +1,11 @@
 import pygame as pg
 import math
 from buttonclass import *
+from pygame import mixer
+import random
 
 pg.init()
+mixer.init()
 
 width = 1000
 height = 1000
@@ -32,10 +35,20 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 gamestate = "start_menu"
 
 img_button = imgButton("images/Kalaha_cut.png",0,440)
+
 button_start = Button(light_grey, 300,  75, 0, "Start Game")
 back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
 button_leaderboard = Button(light_grey, 300, 75, 1, "Leaderboard")
 button_quit = Button(light_grey, 300, 75, 2, "Quit")
+
+
+def sound():
+    print('hello')
+    sounds = ['sound/sound1.mp3','sound/sound2.mp3','sound/sound3.mp3']
+    i = random.randint(0,2)
+    mixer.music.load(sounds[i])
+    mixer.music.set_volume(0.5)
+    mixer.music.play()
 
 
 def generate(n):
