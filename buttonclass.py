@@ -44,16 +44,6 @@ class Button:
             # Parameters in order of appearance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
-    def isOver(self):
-        # Pos is the mouse position or a tuple of (x,y) coordinates
-        pos = pg.mouse.get_pos()
-        if self.x < pos[0] < self.x + self.button_width:
-            if self.y < pos[1] < self.y + self.button_height:
-                self.color = grey
-                self.draw(surface, 5, outline=black)
-                return True
-        return False
-
     def isClicked(self):
         for event in pg.event.get():
             if event.type == pg.MOUSEBUTTONUP and self.isOver():
