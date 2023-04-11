@@ -1,8 +1,10 @@
-import pygame as pg
 import math
-from buttonclass import *
+
+import pygame as pg
+from buttonclass import Button, backButton, imgButton
 from pygame import mixer
 import random
+
 
 pg.init()
 mixer.init()
@@ -28,7 +30,7 @@ screen_display = pg.display
 
 window_icon = pg.image.load("images/window_icon.png")
 
-pg.display.set_caption("Kalaha",)
+pg.display.set_caption("Kalaha")
 pg.display.set_icon(window_icon)
 
 surface = screen_display.set_mode(res)
@@ -38,7 +40,8 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 gamestate = "start_menu"
 
 
-img_button = imgButton("images/Kalaha_cut.png",0,440)
+img_button = imgButton("images/Kalaha_cut.png", 0, 440)
+
 
 button_start = Button(light_grey, 300,  75, 0, "Start Game")
 back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
@@ -129,7 +132,7 @@ def draw_leaderboard():
     title = font.render('Leaderboard', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
 
-    back_button.draw(surface,5,outline=black)
+    back_button.draw(surface, 5, outline=black)
 
     pg.display.update()
 
