@@ -15,6 +15,8 @@ height = 1000
 gamewidth = 520
 gameheight = 600
 
+didRun = False
+
 pi = math.pi
 
 res = [width, height]
@@ -58,8 +60,6 @@ def sound():
     mixer.music.play()
 
 
-
-
 def generate(n):
     ball_x = ball.get_size()[0]
     ball_y = ball.get_size()[1]
@@ -97,6 +97,30 @@ def generate(n):
     surface.blit(ball, (pos_x, pos_y))
 
 
+def generate_ellipse(n):
+    global didRun
+
+    if  didRun == False:
+        ellipse1_points = []
+        ellipse1 = pg.Rect(100, 100, 200, 400)
+        pg.draw.ellipse(surface, grey, ellipse1, width=5)
+
+        max_x = ellipse1.bottomright[0] - ellipse1.topleft[0]
+        max_y = ellipse1.bottomright[1] - ellipse1.topleft[1]
+        for i in range(n):
+            ball_pos_x = random.randrange(max_x)
+            ball_pos_y = random.randrange(max_y)
+            ellipse1_points.append((ball_pos_x, ball_pos_y))
+            if i == n-1:
+                didRun = True
+                return ellipse1_points
+
+
+
+
+
+
+
 def draw_game():
     surface.fill(white)
 
@@ -105,6 +129,8 @@ def draw_game():
     img_button.draw()
 
     color = (255, 0, 0)
+
+    generate(10)
 
     for i in range(8):
         pg.draw.rect(surface, color,
