@@ -76,6 +76,7 @@ class imgButton:
         self.imgRect = self.img.get_rect()
         self.x = x
         self.y = y
+        self.movespeed = 0
 
     def draw(self):
         surface.blit(self.img, (self.x,self.y))
@@ -88,6 +89,8 @@ class imgButton:
                 return True
         return False
 
-    def move_button(self, stepsize):
-        self.imgRect = self.imgRect.move((0,stepsize))
-
+    def move_button(self):
+        stepsize = 1
+        self.movespeed = stepsize
+        surface.blit(self.img, (self.x, self.y))
+        self.x = self.x + self.movespeed
