@@ -10,6 +10,9 @@ mixer.init()
 width = 1000
 height = 1000
 
+gamewidth = 520
+gameheight = 600
+
 pi = math.pi
 
 res = [width, height]
@@ -34,6 +37,7 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
+
 img_button = imgButton("images/Kalaha_cut.png",0,440)
 
 button_start = Button(light_grey, 300,  75, 0, "Start Game")
@@ -49,6 +53,8 @@ def sound():
     mixer.music.load(sounds[i])
     mixer.music.set_volume(0.5)
     mixer.music.play()
+
+
 
 
 def generate(n):
@@ -94,6 +100,20 @@ def draw_game():
     global gamestate
 
     img_button.draw()
+
+    color = (255, 0, 0)
+
+    for i in range(8):
+        pg.draw.rect(surface, color,
+                     pg.Rect((gamewidth / 2) + i / 7 * gamewidth-26, height - (height - gameheight / 2), 40, 120))
+
+    for i in range(8):
+        pg.draw.rect(surface, color,
+                     pg.Rect((gamewidth / 2) + i / 7 * gamewidth-26, height - (height - gameheight / 2)+400, 40, 120))
+
+    if img_button.isOver():
+        if event.type == pg.MOUSEBUTTONUP:
+            img_button.move_button()
 
     back_button.draw(surface, 5, outline=black)
 
@@ -157,6 +177,7 @@ while window:
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
 
+
     if gamestate == "start_menu":
         draw_start_screen()
 
@@ -169,6 +190,6 @@ while window:
     if gamestate == "quit":
         window = False
 
-clock.tick(30)
+clock.tick(120)
 
 pg.quit()
