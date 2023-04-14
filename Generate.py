@@ -59,6 +59,9 @@ def generate_angle(n):
             surface.blit(ball, points2[i])
 
 
+
+
+
 def Generate(n):
     window = True
     while window:

@@ -15,8 +15,6 @@ height = 1000
 gamewidth = 520
 gameheight = 600
 
-didRun = False
-
 pi = math.pi
 
 res = [width, height]
@@ -49,6 +47,27 @@ button_start = Button(light_grey, 300,  75, 0, "Start Game")
 back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
 button_leaderboard = Button(light_grey, 300, 75, 1, "Leaderboard")
 button_quit = Button(light_grey, 300, 75, 2, "Quit")
+
+ellipse1_points = []
+ellipse1 = pg.Rect(100, 100, 200, 400)
+ellipse2_points = []
+ellipse2 = pg.Rect(500,100,200,400)
+
+
+#max_x1 = ellipse1.bottomright[0]- ellipse1.topleft[0] + ellipse1.x
+#max_y1 = ellipse1.bottomright[1] - ellipse1.topleft[1]+ ellipse1.y
+ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
+ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
+
+
+for i in range(72):
+    ball_pos_x1 = random.randrange(ellipse_x1[0], ellipse_x1[1])
+    ball_pos_y1 = random.randrange(ellipse1.height)
+    ball_pos_x2 = random.randrange(ellipse_x2[0],ellipse_x2[1])
+    ball_pos_y2 = random.randrange(ellipse2.height)
+    ellipse1_points.append((ball_pos_x1, ball_pos_y1))
+    ellipse2_points.append((ball_pos_x2, ball_pos_y2))
+
 
 
 def sound():
@@ -98,27 +117,12 @@ def generate(n):
 
 
 def generate_ellipse(n):
-    global didRun
+    pg.draw.ellipse(surface, grey, ellipse1, width=5)
+    pg.draw.ellipse(surface, grey, ellipse2, width=5)
 
-    if  didRun == False:
-        ellipse1_points = []
-        ellipse1 = pg.Rect(100, 100, 200, 400)
-        pg.draw.ellipse(surface, grey, ellipse1, width=5)
-
-        max_x = ellipse1.bottomright[0] - ellipse1.topleft[0]
-        max_y = ellipse1.bottomright[1] - ellipse1.topleft[1]
-        for i in range(n):
-            ball_pos_x = random.randrange(max_x)
-            ball_pos_y = random.randrange(max_y)
-            ellipse1_points.append((ball_pos_x, ball_pos_y))
-            if i == n-1:
-                didRun = True
-                return ellipse1_points
-
-
-
-
-
+    for i in range(n):
+        surface.blit(ball, ellipse1_points[i])
+        surface.blit(ball, ellipse2_points[i])
 
 
 def draw_game():
@@ -130,7 +134,7 @@ def draw_game():
 
     color = (255, 0, 0)
 
-    generate(10)
+    generate_ellipse(10)
 
     for i in range(8):
         pg.draw.rect(surface, color,
