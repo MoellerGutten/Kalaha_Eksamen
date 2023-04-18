@@ -223,11 +223,3 @@ class kalaha:
             for element in new_board:
                 send_board.append(element)
             return new_board[13], send_board
-
-
-start_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
-game_engine = kalaha(start_board)
-print(game_engine.move(12, True))
-game_engine.console_board_print()
-print(game_engine.bot_move())
-game_engine.console_board_print()
