@@ -73,7 +73,7 @@ class backButton(Button):
 
 class imgButton:
     def __init__(self, img, x, y):
-        self.img = pg.image.load(img)
+        self.img = img
         self.button_width = self.img.get_width()
         self.button_height = self.img.get_height()
         self.imgRect = self.img.get_rect()
