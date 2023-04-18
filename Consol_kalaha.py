@@ -95,7 +95,7 @@ def main():
     while not finshed_game:
         print_board()
         if player1_turn:
-            # Switch case that puts the correct value in the fucktion move based on the players input
+            # Switch case that puts the correct value in the function move based on the players input
             player_1_move = input("Player 1: choose a pile to play: ")
             match int(player_1_move):
                 case 1:
