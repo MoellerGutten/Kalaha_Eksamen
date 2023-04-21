@@ -134,11 +134,10 @@ def draw_game():
 
     global gamestate
 
-    img_button.draw()
-
     color = (255, 0, 0)
 
     boardbutton1.draw(surface, 0, outline="")
+
 
     surface.blit(gameboard_img,
                  (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
@@ -154,6 +153,19 @@ def draw_game():
         # print(f"{i}:,{list_of_buttons}")
 
     for i in range(6):
+    surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
+
+    debug_rect = pg.Rect(80, 395, 840, 210)
+    pg.draw.rect(surface, black, debug_rect, 3)
+
+    for i in range(6):
+        button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height/2 - gameheight / 2+25, 65, 65)
+        button = pg.draw.rect(surface, color, button_rect)
+        list_of_buttons = []
+        list_of_buttons.append((button.x, button.y, button.size))
+        #print(f"{i}:,{list_of_buttons}")
+
+    for i in range(6):
         button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
         button = pg.draw.rect(surface, color, button_rect)
         list_of_buttons = []
@@ -163,6 +175,11 @@ def draw_game():
     # if img_button.isOver():
     # if event.type == pg.MOUSEBUTTONUP:
     # img_button.move_button()
+        #print(f"nederste {i}:,{list_of_buttons}")
+
+    #if img_button.isOver():
+        #if event.type == pg.MOUSEBUTTONUP:
+            #img_button.move_button()
 
     back_button.draw(surface, 5, outline=black)
 
@@ -229,7 +246,7 @@ while window:
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 print("test")
-
+    
 
     if gamestate == "start_menu":
         draw_start_screen()
