@@ -44,6 +44,17 @@ class Button:
             # Parameters in order of appearance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
+    def draw_text(self, text):
+        if text != '':
+            font = pg.font.SysFont('arial', 80)
+            font2 = pg.font.SysFont('arial', 90)
+            toWrite1 = font.render(text, True, white)
+            toWrite2 = font2.set_bold(True)
+            toWrite2 = font2.render(text, True, black)
+            # Parameters in order of appearance: (text, x, y), where the x and y is centered
+            surface.blit(toWrite2, (self.x + (self.button_width / 2 - toWrite2.get_width() / 2), self.y + (self.button_height / 2 - toWrite2.get_height() / 2)))
+            surface.blit(toWrite1, (self.x + (self.button_width / 2 - toWrite1.get_width() / 2), self.y + (self.button_height / 2 - toWrite1.get_height() / 2)))
+
     def isOver(self, gamestate):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         pos = pg.mouse.get_pos()

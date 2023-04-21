@@ -39,10 +39,6 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
-gameboard_button_size = (65,65)
-
-gameboard_img_list = [(204, 420, gameboard_button_size), (309, 420, gameboard_button_size), (414, 420, gameboard_button_size), (519, 420, gameboard_button_size), (624, 420, gameboard_button_size), (729, 420, gameboard_button_size) , (204, 520, gameboard_button_size), (309, 520, gameboard_button_size), (414, 520, gameboard_button_size), (519, 520, gameboard_button_size), (624, 520, gameboard_button_size), (729, 520, gameboard_button_size)]
-
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420,353))
 
@@ -52,18 +48,18 @@ button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offs
 back_button = Button(light_grey, 50,50,200, 50, "game", "Back")
 back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Back")
 
-boardbutton1 = Button(light_grey,204, 420, 65,65,"game","1")
-boardbutton2 = Button(light_grey,309, 420, 65,65,"game","2")
-boardbutton3 = Button(light_grey,414, 420, 65,65,"game","3")
-boardbutton4 = Button(light_grey,519, 420, 65,65,"game","4")
-boardbutton5 = Button(light_grey,624, 420, 65,65,"game","5")
-boardbutton6 = Button(light_grey,729, 420, 65,65,"game","6")
-boardbutton7 = Button(light_grey,204, 520, 65,65,"game","7")
-boardbutton8 = Button(light_grey,309, 520, 65,65,"game","8")
-boardbutton9 = Button(light_grey,414, 520, 65,65,"game","9")
-boardbutton10 = Button(light_grey,519, 520, 65,65,"game","10")
-boardbutton11 = Button(light_grey,624, 520, 65,65,"game","11")
-boardbutton12 = Button(light_grey,729, 520, 65,65,"game","12")
+boardbutton1 = Button(light_grey,204, 420, 65,65,"game")
+boardbutton2 = Button(light_grey,309, 420, 65,65,"game")
+boardbutton3 = Button(light_grey,414, 420, 65,65,"game")
+boardbutton4 = Button(light_grey,519, 420, 65,65,"game")
+boardbutton5 = Button(light_grey,624, 420, 65,65,"game")
+boardbutton6 = Button(light_grey,729, 420, 65,65,"game")
+boardbutton7 = Button(light_grey,204, 520, 65,65,"game")
+boardbutton8 = Button(light_grey,309, 520, 65,65,"game")
+boardbutton9 = Button(light_grey,414, 520, 65,65,"game")
+boardbutton10 = Button(light_grey,519, 520, 65,65,"game")
+boardbutton11 = Button(light_grey,624, 520, 65,65,"game")
+boardbutton12 = Button(light_grey,729, 520, 65,65,"game")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
@@ -149,9 +145,6 @@ def draw_game():
 
     color = (255, 0, 0)
 
-    boardbutton1.draw(surface, 0, outline="")
-
-
     surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
 
     debug_rect = pg.Rect(80, 395, 840, 210)
@@ -165,8 +158,9 @@ def draw_game():
         button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
         button = pg.draw.rect(surface, color, button_rect)
 
-
     back_button.draw(surface, 5, outline=black)
+
+    boardbutton1.draw_text("1")
 
     screen_display.update()
 
@@ -280,7 +274,5 @@ while window:
 
     if gamestate == "quit":
         window = False
-
-clock.tick(120)
 
 pg.quit()
