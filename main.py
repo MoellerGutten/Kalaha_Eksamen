@@ -1,7 +1,7 @@
 import math
 
 import pygame as pg
-from buttonclass import Button, backButton, imgButton
+from buttonclass import Button, imgButton
 from pygame import mixer
 import random
 
@@ -46,24 +46,24 @@ gameboard_img_list = [(204, 420, gameboard_button_size), (309, 420, gameboard_bu
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420,353))
 
-button_start = Button(light_grey, 300,  75, 0,"start_menu" ,"Start Game")
-back_button = backButton(light_grey, 50, 50, 200, 50, 0, "game", "Back")
-back_button_leaderboard = backButton(light_grey, 50, 50, 200, 50, 0, "leaderboard", "Back")
-button_leaderboard = Button(light_grey, 300, 75, 1,"start_menu", "Leaderboard")
-button_quit = Button(light_grey, 300, 75, 2, "start_menu","Quit")
+button_start = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 1,300,  75,"start_menu" ,"Start Game")
+button_leaderboard = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 2,300,  75,"start_menu", "Leaderboard")
+button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 3,300,  75, "start_menu","Quit")
+back_button = Button(light_grey, 50,50,200, 50, "game", "Back")
+back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Back")
 
-boardbutton1 = backButton(light_grey,204, 420, 65,65,0,"game","")
-boardbutton2 = backButton(light_grey,309, 420, 65,65,0,"game","")
-boardbutton3 = backButton(light_grey,414, 420, 65,65,0,"game","")
-boardbutton4 = backButton(light_grey,519, 420, 65,65,0,"game","")
-boardbutton5 = backButton(light_grey,624, 420, 65,65,0,"game","")
-boardbutton6 = backButton(light_grey,729, 420, 65,65,0,"game","")
-boardbutton7 = backButton(light_grey,204, 520, 65,65,0,"game","")
-boardbutton8 = backButton(light_grey,309, 520, 65,65,0,"game","")
-boardbutton9 = backButton(light_grey,414, 520, 65,65,0,"game","")
-boardbutton10 = backButton(light_grey,519, 520, 65,65,0,"game","")
-boardbutton11 = backButton(light_grey,624, 520, 65,65,0,"game","")
-boardbutton12 = backButton(light_grey,729, 520, 65,65,0,"game","")
+boardbutton1 = Button(light_grey,204, 420, 65,65,"game","1")
+boardbutton2 = Button(light_grey,309, 420, 65,65,"game","2")
+boardbutton3 = Button(light_grey,414, 420, 65,65,"game","3")
+boardbutton4 = Button(light_grey,519, 420, 65,65,"game","4")
+boardbutton5 = Button(light_grey,624, 420, 65,65,"game","5")
+boardbutton6 = Button(light_grey,729, 420, 65,65,"game","6")
+boardbutton7 = Button(light_grey,204, 520, 65,65,"game","7")
+boardbutton8 = Button(light_grey,309, 520, 65,65,"game","8")
+boardbutton9 = Button(light_grey,414, 520, 65,65,"game","9")
+boardbutton10 = Button(light_grey,519, 520, 65,65,"game","10")
+boardbutton11 = Button(light_grey,624, 520, 65,65,"game","11")
+boardbutton12 = Button(light_grey,729, 520, 65,65,"game","12")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
@@ -160,16 +160,11 @@ def draw_game():
     for i in range(6):
         button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height/2 - gameheight / 2+25, 65, 65)
         button = pg.draw.rect(surface, color, button_rect)
-        list_of_buttons = []
-        list_of_buttons.append((button.x, button.y, button.size))
-        #print(f"{i}:,{list_of_buttons}")
 
     for i in range(6):
         button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
         button = pg.draw.rect(surface, color, button_rect)
-        list_of_buttons = []
-        list_of_buttons.append((button.x, button.y, button.size))
-        #print(f"nederste {i}:,{list_of_buttons}")
+
 
     back_button.draw(surface, 5, outline=black)
 

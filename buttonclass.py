@@ -20,15 +20,14 @@ surface = screen_display.set_mode(res)
 
 # Template from S0
 class Button:
-    def __init__(self, color, button_width, button_height, index, buttongamestate, text=''):
+    def __init__(self, color, x, y, button_width, button_height, buttongamestate, text=''):
         self.color = color
         self.button_width = button_width
         self.button_height = button_height
         self.buttongamestate = buttongamestate
         self.text = text
-        self.index = index
-        self.x = width / 2 - self.button_width / 2
-        self.y = height / 2 - self.button_height / 2 + offset * self.index
+        self.x = x
+        self.y = y
 
     def draw(self, surface, border_width, outline):
         # Call this method to draw the button on the screen
@@ -55,20 +54,6 @@ class Button:
                     self.color = grey
                     return True
         return False
-
-
-
-class backButton(Button):
-    def __init__(self, color,  x, y, button_width, button_height, index, buttongamestate, text=''):
-        Button.__init__(self, color, button_width, button_height, index, buttongamestate, text='')
-        self.color = color
-        self.x = x
-        self.y = y
-        self.button_width = button_width
-        self.button_height = button_height
-        self.buttongamestate = buttongamestate
-        self.text = text
-
 
 
 class imgButton:
