@@ -39,19 +39,31 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
+gameboard_button_size = (65,65)
+
+gameboard_img_list = [(204, 420, gameboard_button_size), (309, 420, gameboard_button_size), (414, 420, gameboard_button_size), (519, 420, gameboard_button_size), (624, 420, gameboard_button_size), (729, 420, gameboard_button_size) , (204, 520, gameboard_button_size), (309, 520, gameboard_button_size), (414, 520, gameboard_button_size), (519, 520, gameboard_button_size), (624, 520, gameboard_button_size), (729, 520, gameboard_button_size)]
+
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420,353))
-
-boardbutton1 = backButton(light_grey,204,420,65,65,0,"game","")
-
-print(gameboard_img.get_size())
-print(gameboard_img.get_rect())
 
 button_start = Button(light_grey, 300,  75, 0,"start_menu" ,"Start Game")
 back_button = backButton(light_grey, 50, 50, 200, 50, 0, "game", "Back")
 back_button_leaderboard = backButton(light_grey, 50, 50, 200, 50, 0, "leaderboard", "Back")
 button_leaderboard = Button(light_grey, 300, 75, 1,"start_menu", "Leaderboard")
 button_quit = Button(light_grey, 300, 75, 2, "start_menu","Quit")
+
+boardbutton1 = backButton(light_grey,204, 420, 65,65,0,"game","")
+boardbutton2 = backButton(light_grey,309, 420, 65,65,0,"game","")
+boardbutton3 = backButton(light_grey,414, 420, 65,65,0,"game","")
+boardbutton4 = backButton(light_grey,519, 420, 65,65,0,"game","")
+boardbutton5 = backButton(light_grey,624, 420, 65,65,0,"game","")
+boardbutton6 = backButton(light_grey,729, 420, 65,65,0,"game","")
+boardbutton7 = backButton(light_grey,204, 520, 65,65,0,"game","")
+boardbutton8 = backButton(light_grey,309, 520, 65,65,0,"game","")
+boardbutton9 = backButton(light_grey,414, 520, 65,65,0,"game","")
+boardbutton10 = backButton(light_grey,519, 520, 65,65,0,"game","")
+boardbutton11 = backButton(light_grey,624, 520, 65,65,0,"game","")
+boardbutton12 = backButton(light_grey,729, 520, 65,65,0,"game","")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
@@ -140,21 +152,7 @@ def draw_game():
     boardbutton1.draw(surface, 0, outline="")
 
 
-    surface.blit(gameboard_img,
-                 (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
-
-    debug_rect = pg.Rect(80, 395, 840, 210)
-    pg.draw.rect(surface, black, debug_rect, 3)
-
-    for i in range(6):
-        button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 25, 65, 65)
-        button = pg.draw.rect(surface, color, button_rect)
-        list_of_buttons = []
-        list_of_buttons.append((button.x, button.y, button.size))
-        # print(f"{i}:,{list_of_buttons}")
-
-    for i in range(6):
-        surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
+    surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
 
     debug_rect = pg.Rect(80, 395, 840, 210)
     pg.draw.rect(surface, black, debug_rect, 3)
@@ -171,16 +169,7 @@ def draw_game():
         button = pg.draw.rect(surface, color, button_rect)
         list_of_buttons = []
         list_of_buttons.append((button.x, button.y, button.size))
-        # print(f"nederste {i}:,{list_of_buttons}")
-
-    # if img_button.isOver():
-    # if event.type == pg.MOUSEBUTTONUP:
-    # img_button.move_button()
         #print(f"nederste {i}:,{list_of_buttons}")
-
-    #if img_button.isOver():
-        #if event.type == pg.MOUSEBUTTONUP:
-            #img_button.move_button()
 
     back_button.draw(surface, 5, outline=black)
 
@@ -249,6 +238,39 @@ while window:
                 gamestate = "quit"
 
         if boardbutton1.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton2.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton3.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton4.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton5.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton6.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton7.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton8.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton9.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton10.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton11.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                print("test")
+        if boardbutton12.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 print("test")
 

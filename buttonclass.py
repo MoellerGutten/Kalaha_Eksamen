@@ -62,13 +62,13 @@ class backButton(Button):
     def __init__(self, color,  x, y, button_width, button_height, index, buttongamestate, text=''):
         Button.__init__(self, color, button_width, button_height, index, buttongamestate, text='')
         self.color = color
+        self.x = x
+        self.y = y
         self.button_width = button_width
         self.button_height = button_height
         self.buttongamestate = buttongamestate
         self.text = text
-        self.index = index
-        self.x = x
-        self.y = y
+
 
 
 class imgButton:
