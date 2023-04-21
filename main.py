@@ -35,7 +35,7 @@ pg.display.set_icon(window_icon)
 
 surface = screen_display.set_mode(res)
 
-ball = pg.image.load("images/Kalaha_Kugle.png")
+#ball = pg.image.load("images/Kalaha_Kugle.png")
 
 gamestate = "start_menu"
 
@@ -47,11 +47,10 @@ boardbutton1 = backButton(light_grey,204,420,65,65,0,"game","")
 print(gameboard_img.get_size())
 print(gameboard_img.get_rect())
 
-button_start = Button(light_grey, 300,  75, 0, "start_menu", "Start Game")
-back_button = backButton(light_grey, 50, 50, 200, 50, 0, "game", "Back")
-back_button_leaderboard = backButton(light_grey, 50, 50, 200, 50, 0, "leaderboard", "Back")
-button_leaderboard = Button(light_grey, 300, 75, 1,"start_menu", "Leaderboard")
-button_quit = Button(light_grey, 300, 75, 2, "start_menu", "Quit")
+button_start = Button(light_grey, 300,  75, 0, "Start Game")
+back_button = backButton(light_grey, 50, 50, 200, 50, 0, "Back")
+button_leaderboard = Button(light_grey, 300, 75, 1, "Leaderboard")
+button_quit = Button(light_grey, 300, 75, 2, "Quit")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
@@ -139,6 +138,21 @@ def draw_game():
 
     boardbutton1.draw(surface, 0, outline="")
 
+
+    surface.blit(gameboard_img,
+                 (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
+
+    debug_rect = pg.Rect(80, 395, 840, 210)
+    pg.draw.rect(surface, black, debug_rect, 3)
+
+    for i in range(6):
+        button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 25, 65, 65)
+        button = pg.draw.rect(surface, color, button_rect)
+        list_of_buttons = []
+        list_of_buttons.append((button.x, button.y, button.size))
+        # print(f"{i}:,{list_of_buttons}")
+
+    for i in range(6):
     surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
 
     debug_rect = pg.Rect(80, 395, 840, 210)
@@ -156,6 +170,11 @@ def draw_game():
         button = pg.draw.rect(surface, color, button_rect)
         list_of_buttons = []
         list_of_buttons.append((button.x, button.y, button.size))
+        # print(f"nederste {i}:,{list_of_buttons}")
+
+    # if img_button.isOver():
+    # if event.type == pg.MOUSEBUTTONUP:
+    # img_button.move_button()
         #print(f"nederste {i}:,{list_of_buttons}")
 
     #if img_button.isOver():
@@ -176,7 +195,7 @@ def draw_leaderboard():
     title = font.render('Leaderboard', True, black)
     surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
 
-    back_button_leaderboard.draw(surface, 5, outline=black)
+    back_button.draw(surface, 5, outline=black)
 
     pg.display.update()
 
@@ -216,10 +235,6 @@ while window:
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "start_menu"
 
-        if back_button_leaderboard.isOver(gamestate):
-            if event.type == pg.MOUSEBUTTONUP:
-                gamestate = "start_menu"
-
         if button_leaderboard.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "leaderboard"
@@ -231,6 +246,7 @@ while window:
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 print("test")
+    
 
     if gamestate == "start_menu":
         draw_start_screen()
