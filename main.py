@@ -60,6 +60,8 @@ boardbutton9 = Button(light_grey,414, 520, 65,65,"game")
 boardbutton10 = Button(light_grey,519, 520, 65,65,"game")
 boardbutton11 = Button(light_grey,624, 520, 65,65,"game")
 boardbutton12 = Button(light_grey,729, 520, 65,65,"game")
+Scoreleftbutton = Button(light_grey,90, 420, 90, 170,"game")
+Scorerightbutton = Button(light_grey,820, 420, 90, 170,"game")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
@@ -147,20 +149,45 @@ def draw_game():
 
     surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
 
-    debug_rect = pg.Rect(80, 395, 840, 210)
-    pg.draw.rect(surface, black, debug_rect, 3)
+    # Rect om hele boardet
+    #debug_rect = pg.Rect(80, 395, 840, 210)
+    #pg.draw.rect(surface, black, debug_rect, 3)
 
-    for i in range(6):
-        button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height/2 - gameheight / 2+25, 65, 65)
-        button = pg.draw.rect(surface, color, button_rect)
+    # Rect om left score
+    #debug_rect = pg.Rect(90, 420, 90, 170)
+    #pg.draw.rect(surface, black, debug_rect, 3)
 
-    for i in range(6):
-        button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
-        button = pg.draw.rect(surface, color, button_rect)
+    # Rect om right score
+    #debug_rect = pg.Rect(820, 420, 90, 170)
+    #pg.draw.rect(surface, black, debug_rect, 3)
+
+    # Rects for alle spille felterne
+
+    #for i in range(6):
+        #button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height/2 - gameheight / 2+25, 65, 65)
+        #button = pg.draw.rect(surface, color, button_rect)
+
+    #for i in range(6):
+        #button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
+        #button = pg.draw.rect(surface, color, button_rect)
 
     back_button.draw(surface, 5, outline=black)
 
     boardbutton1.draw_text("1")
+    boardbutton2.draw_text("2")
+    boardbutton3.draw_text("3")
+    boardbutton4.draw_text("4")
+    boardbutton5.draw_text("5")
+    boardbutton6.draw_text("6")
+    boardbutton7.draw_text("7")
+    boardbutton8.draw_text("8")
+    boardbutton9.draw_text("9")
+    boardbutton10.draw_text("10")
+    boardbutton11.draw_text("11")
+    boardbutton12.draw_text("12")
+
+    Scoreleftbutton.draw_text("0")
+    Scorerightbutton.draw_text("0")
 
     screen_display.update()
 
