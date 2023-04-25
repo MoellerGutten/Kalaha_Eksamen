@@ -40,7 +40,7 @@ def bot_move():
             test_board.append(element)
         score, motified_board = try_move(test_board, i, test_board[i], False)
         future_moves[i] += score
-        enemy_move = minimax(False, motified_board)
+        enemy_move, empty = minimax(False, motified_board)
         enemy_score, motified_board = try_move(motified_board, enemy_move, motified_board[enemy_move], True)
         enemy_future_moves[i] += enemy_score
         test_board = motified_board
@@ -48,15 +48,30 @@ def bot_move():
             bmove = minimax(True, test_board)
             score, motified_board = try_move(test_board, bmove, test_board[bmove], False)
             future_moves[i] += score
-            enemy_move = minimax(False, motified_board)
+            enemy_move, empty = minimax(False, motified_board)
             enemy_score, motified_board = try_move(motified_board, enemy_move, motified_board[enemy_move], True)
             enemy_future_moves[i] += enemy_score
             test_board = motified_board
-    print(future_moves)
-    bmove = max(future_moves, key=future_moves.get)
+    mini_max_diff = {}
+    for i in range(len(future_moves)):
+        diff = future_moves[i] - enemy_future_moves[i]
+        mini_max_diff[i] = diff
+
+    bmove = max(mini_max_diff, key=mini_max_diff.get)
+    wmove = min(future_moves, key=future_moves.get)
+
+    dist = bmove - 6
+    # location is asigned to the opposite hole
+    location = 6 - dist
+
     if bmove == "done":
         return "Stop"
-    if bmove == -1 or bmove == 0:
+    if future_moves[bmove] == future_moves[wmove]:
+        while True:
+            ran_num = random.randint(0, 5)
+            if board[ran_num] != 0:
+                return ran_num
+    elif board[bmove] == 0 and board[location] == 0:
         while True:
             ran_num = random.randint(0, 5)
             if board[ran_num] != 0:
@@ -75,13 +90,14 @@ def minimax(max_turn, tested_board):
         for y in range(6):
             outcome = 0
             score, motified_board = try_move(tested_board, y, tested_board[y], False)
-            if score > start_score + 1:
+            if score > start_score + 2:
+                outcome += 3
+            elif score > start_score + 1:
                 outcome += 2
             elif score > start_score:
                 outcome += 1
             else:
-                outcome -= 1
-            # min_val = minimax(False, motified_board)
+                outcome -= 3
             best_possible_move[y] = outcome
         best_move = max(best_possible_move, key=best_possible_move.get)
         return best_move
@@ -90,16 +106,17 @@ def minimax(max_turn, tested_board):
         for y in range(6):
             outcome = 0
             score, motified_board = try_move(tested_board, y, tested_board[y], True)
-            if score > start_score + 1:
+            if score > start_score + 2:
+                outcome += 3
+            elif score > start_score + 1:
                 outcome += 2
             elif score > start_score:
                 outcome += 1
             else:
-                outcome -= 1
-            # min_list = minimax(True, motified_board)
+                outcome -= 3
             enemy_best_possible_move[y] = outcome
         enemy_best_move = max(enemy_best_possible_move, key=enemy_best_possible_move.get)
-        return enemy_best_move
+        return enemy_best_move, enemy_best_possible_move[enemy_best_move]
 
 
 def try_move(old_board, location, amount, player1_turn):
