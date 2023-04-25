@@ -40,37 +40,37 @@ ball = pg.image.load("images/Kalaha_Kugle.png")
 gamestate = "start_menu"
 
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
-gameboard_img = pg.transform.scale(gameboard_img, (1420,353))
+gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 
-button_start = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 1,300,  75,"start_menu" ,"Start Game")
-button_leaderboard = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 2,300,  75,"start_menu", "Leaderboard")
-button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 3,300,  75, "start_menu","Quit")
-back_button = Button(light_grey, 50,50,200, 50, "game", "Back")
+button_start = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 1, 300,  75, "start_menu", "Start Game")
+button_leaderboard = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 2, 300,  75, "start_menu", "Leaderboard")
+button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 3, 300,  75, "start_menu", "Quit")
+back_button = Button(light_grey, 50, 50, 200, 50, "game", "Back")
 back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Back")
 
-boardbutton1 = Button(light_grey,204, 420, 65,65,"game")
-boardbutton2 = Button(light_grey,309, 420, 65,65,"game")
-boardbutton3 = Button(light_grey,414, 420, 65,65,"game")
-boardbutton4 = Button(light_grey,519, 420, 65,65,"game")
-boardbutton5 = Button(light_grey,624, 420, 65,65,"game")
-boardbutton6 = Button(light_grey,729, 420, 65,65,"game")
-boardbutton7 = Button(light_grey,204, 520, 65,65,"game")
-boardbutton8 = Button(light_grey,309, 520, 65,65,"game")
-boardbutton9 = Button(light_grey,414, 520, 65,65,"game")
-boardbutton10 = Button(light_grey,519, 520, 65,65,"game")
-boardbutton11 = Button(light_grey,624, 520, 65,65,"game")
-boardbutton12 = Button(light_grey,729, 520, 65,65,"game")
-Scoreleftbutton = Button(light_grey,90, 420, 90, 170,"game")
-Scorerightbutton = Button(light_grey,820, 420, 90, 170,"game")
+boardbutton1 = Button(light_grey, 204, 420, 65, 65, "game")
+boardbutton2 = Button(light_grey, 309, 420, 65, 65, "game")
+boardbutton3 = Button(light_grey, 414, 420, 65, 65, "game")
+boardbutton4 = Button(light_grey, 519, 420, 65, 65, "game")
+boardbutton5 = Button(light_grey, 624, 420, 65, 65, "game")
+boardbutton6 = Button(light_grey, 729, 420, 65, 65, "game")
+boardbutton7 = Button(light_grey, 204, 520, 65, 65, "game")
+boardbutton8 = Button(light_grey, 309, 520, 65, 65, "game")
+boardbutton9 = Button(light_grey, 414, 520, 65, 65, "game")
+boardbutton10 = Button(light_grey, 519, 520, 65, 65, "game")
+boardbutton11 = Button(light_grey, 624, 520, 65, 65, "game")
+boardbutton12 = Button(light_grey, 729, 520, 65, 65, "game")
+Scoreleftbutton = Button(light_grey, 90, 420, 90, 170, "game")
+Scorerightbutton = Button(light_grey, 820, 420, 90, 170, "game")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(100, 100, 200, 400)
 ellipse2_points = []
-ellipse2 = pg.Rect(500,100,200,400)
+ellipse2 = pg.Rect(500, 100, 200, 400)
 
 
-#max_x1 = ellipse1.bottomright[0]- ellipse1.topleft[0] + ellipse1.x
-#max_y1 = ellipse1.bottomright[1] - ellipse1.topleft[1]+ ellipse1.y
+# max_x1 = ellipse1.bottomright[0]- ellipse1.topleft[0] + ellipse1.x
+# max_y1 = ellipse1.bottomright[1] - ellipse1.topleft[1]+ ellipse1.y
 ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
 
@@ -78,18 +78,16 @@ ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
 for i in range(72):
     ball_pos_x1 = random.randrange(ellipse_x1[0], ellipse_x1[1])
     ball_pos_y1 = random.randrange(ellipse1.height)
-    ball_pos_x2 = random.randrange(ellipse_x2[0],ellipse_x2[1])
+    ball_pos_x2 = random.randrange(ellipse_x2[0], ellipse_x2[1])
     ball_pos_y2 = random.randrange(ellipse2.height)
     ellipse1_points.append((ball_pos_x1, ball_pos_y1))
     ellipse2_points.append((ball_pos_x2, ball_pos_y2))
 
 
-
 def sound():
-    print('hello')
-    sounds = ['sound/sound1.mp3','sound/sound2.mp3','sound/sound3.mp3']
-    i = random.randint(0,2)
-    mixer.music.load(sounds[i])
+    sounds = ['sound/sound1.mp3', 'sound/sound2.mp3', 'sound/sound3.mp3']
+    randomvalue = random.randint(0, 2)
+    mixer.music.load(sounds[randomvalue])
     mixer.music.set_volume(0.5)
     mixer.music.play()
 
@@ -288,6 +286,7 @@ while window:
                 print("test")
         if boardbutton12.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
+                sound()
                 print("test")
 
     if gamestate == "start_menu":
