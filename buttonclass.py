@@ -66,6 +66,12 @@ class Button:
                     return True
         return False
 
+    def get_x_pos(self):
+        return self.x
+
+    def get_y_pos(self):
+        return self.y
+
 
 class imgButton:
     def __init__(self, img, x, y):

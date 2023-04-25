@@ -36,6 +36,7 @@ pg.display.set_icon(window_icon)
 surface = screen_display.set_mode(res)
 
 ball = pg.image.load("images/Kalaha_Kugle.png")
+ball = pg.transform.scale(ball, (25, 25))
 
 gamestate = "start_menu"
 
@@ -64,22 +65,19 @@ Scoreleftbutton = Button(light_grey, 90, 420, 90, 170, "game")
 Scorerightbutton = Button(light_grey, 820, 420, 90, 170, "game")
 
 ellipse1_points = []
-ellipse1 = pg.Rect(100, 100, 200, 400)
+ellipse1 = pg.Rect(90,420,90,170)
 ellipse2_points = []
-ellipse2 = pg.Rect(500, 100, 200, 400)
+ellipse2 = pg.Rect(820,420,90,170)
 
-
-# max_x1 = ellipse1.bottomright[0]- ellipse1.topleft[0] + ellipse1.x
-# max_y1 = ellipse1.bottomright[1] - ellipse1.topleft[1]+ ellipse1.y
 ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
 
 
 for i in range(72):
     ball_pos_x1 = random.randrange(ellipse_x1[0], ellipse_x1[1])
-    ball_pos_y1 = random.randrange(ellipse1.height)
+    ball_pos_y1 = random.randrange(ellipse1.y, ellipse1.y + ellipse1.height)
     ball_pos_x2 = random.randrange(ellipse_x2[0], ellipse_x2[1])
-    ball_pos_y2 = random.randrange(ellipse2.height)
+    ball_pos_y2 = random.randrange(ellipse2.y, ellipse2.y + ellipse2.height)
     ellipse1_points.append((ball_pos_x1, ball_pos_y1))
     ellipse2_points.append((ball_pos_x2, ball_pos_y2))
 
@@ -92,12 +90,12 @@ def sound():
     mixer.music.play()
 
 
-def generate(n):
+def generate(n, button_x, button_y):
     ball_x = ball.get_size()[0]
     ball_y = ball.get_size()[1]
 
-    pos_x = (res[0] - ball_x) / 2
-    pos_y = (res[1] - ball_y) / 2
+    pos_x = (button_x + ball_x)
+    pos_y = (button_y + ball_y)
 
     if n > 1:
         points1 = []
@@ -129,12 +127,13 @@ def generate(n):
     surface.blit(ball, (pos_x, pos_y))
 
 
-def generate_ellipse(n):
-    pg.draw.ellipse(surface, grey, ellipse1, width=5)
-    pg.draw.ellipse(surface, grey, ellipse2, width=5)
-
+def generate_score_left(n):
     for i in range(n):
         surface.blit(ball, ellipse1_points[i])
+
+
+def generate_score_right(n):
+    for i in range(n):
         surface.blit(ball, ellipse2_points[i])
 
 
@@ -170,6 +169,22 @@ def draw_game():
         #button = pg.draw.rect(surface, color, button_rect)
 
     back_button.draw(surface, 5, outline=black)
+
+    generate(6, boardbutton1.get_x_pos(), boardbutton1.get_y_pos())
+    generate(6, boardbutton2.get_x_pos(), boardbutton2.get_y_pos())
+    generate(6, boardbutton3.get_x_pos(), boardbutton3.get_y_pos())
+    generate(6, boardbutton4.get_x_pos(), boardbutton4.get_y_pos())
+    generate(6, boardbutton5.get_x_pos(), boardbutton5.get_y_pos())
+    generate(6, boardbutton6.get_x_pos(), boardbutton6.get_y_pos())
+    generate(6, boardbutton7.get_x_pos(), boardbutton7.get_y_pos())
+    generate(6, boardbutton8.get_x_pos(), boardbutton8.get_y_pos())
+    generate(6, boardbutton9.get_x_pos(), boardbutton9.get_y_pos())
+    generate(6, boardbutton10.get_x_pos(), boardbutton10.get_y_pos())
+    generate(6, boardbutton11.get_x_pos(), boardbutton11.get_y_pos())
+    generate(6, boardbutton12.get_x_pos(), boardbutton12.get_y_pos())
+
+    generate_score_left(36)
+    generate_score_right(36)
 
     boardbutton1.draw_text("1")
     boardbutton2.draw_text("2")
