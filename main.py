@@ -1,4 +1,6 @@
 import math
+import time
+
 import kalaha
 
 import pygame as pg
@@ -124,8 +126,7 @@ def generate(n, button_x, button_y):
                 y = math.sin(angle) * ball_x * 2 + pos_y
                 points2.append((x, y))
                 surface.blit(ball, points2[i])
-
-    surface.blit(ball, (pos_x, pos_y))
+        surface.blit(ball, (pos_x, pos_y))
 
 
 def generate_score_left(n):
@@ -211,6 +212,20 @@ def draw_start_screen():
     button_leaderboard.draw(surface, 5, outline=black)
 
     button_quit.draw(surface, 5, outline=black)
+
+    pg.display.update()
+
+
+def draw_victory_screen(who_won):
+    surface.fill(white)
+
+    global gamestate
+
+    font = pg.font.SysFont('arial', 80)
+    title = font.render(who_won, True, black)
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+
+    back_button.draw(surface, 5, outline=black)
 
     pg.display.update()
 
@@ -324,10 +339,15 @@ while window:
                 sound()
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(7, True)
-    if game_engine.check_win():
+    if game_engine.check_win()[0]:
+        gamestate = "victory"
+
+    if gamestate == "victory":
+        draw_victory_screen(game_engine.check_win()[1])
+        time.sleep(5)
         gamestate = "start_menu"
-        isplayer1 = True
         game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+        isplayer1 = True
 
     if gamestate == "start_menu":
         draw_start_screen()

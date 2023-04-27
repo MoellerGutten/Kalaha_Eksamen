@@ -9,14 +9,13 @@ class kalaha:
         if self.board[12] + self.board[11] + self.board[10] + self.board[9] + self.board[8] + self.board[7] == 0 or self.board[0] + self.board[1] + self.board[2] + \
                 self.board[3] + self.board[4] + self.board[5] == 0:
             if self.board[6] > self.board[13]:
-                print("Player 1 won")
+                return True, "Player 1 won"
             elif self.board[6] < self.board[13]:
-                print("Player 2 won")
+                return True, "Player 2 won"
             else:
-                print("It is a draw")
-            return True
+                return True, "It is a draw"
         else:
-            return False
+            return False, ""
 
     def console_board_print(self):
         print(f"\n  |{self.board[0]}|{self.board[1]}|{self.board[2]}|{self.board[3]}|{self.board[4]}|{self.board[5]}|  ")
