@@ -73,7 +73,7 @@ class kalaha:
                     # location is now asigned to the right location, the loop went out of index
                     location = start_location - remain
                 # checks if the location is about to put a ball into the enemies goal and move it 1 more back
-                if location == -8:
+                if location == -8 or location == 6:
                     location -= 1
 
                 # gives the reached hole 1 ball
