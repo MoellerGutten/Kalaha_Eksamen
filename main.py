@@ -1,4 +1,5 @@
 import math
+import kalaha
 
 import pygame as pg
 from buttonclass import Button, imgButton
@@ -137,7 +138,7 @@ def generate_score_right(n):
         surface.blit(ball, ellipse2_points[i])
 
 
-def draw_game():
+def draw_game(engine):
     surface.fill(white)
 
     global gamestate
@@ -170,37 +171,39 @@ def draw_game():
 
     back_button.draw(surface, 5, outline=black)
 
-    generate(6, boardbutton1.get_x_pos(), boardbutton1.get_y_pos())
-    generate(6, boardbutton2.get_x_pos(), boardbutton2.get_y_pos())
-    generate(6, boardbutton3.get_x_pos(), boardbutton3.get_y_pos())
-    generate(6, boardbutton4.get_x_pos(), boardbutton4.get_y_pos())
-    generate(6, boardbutton5.get_x_pos(), boardbutton5.get_y_pos())
-    generate(6, boardbutton6.get_x_pos(), boardbutton6.get_y_pos())
-    generate(6, boardbutton7.get_x_pos(), boardbutton7.get_y_pos())
-    generate(6, boardbutton8.get_x_pos(), boardbutton8.get_y_pos())
-    generate(6, boardbutton9.get_x_pos(), boardbutton9.get_y_pos())
-    generate(6, boardbutton10.get_x_pos(), boardbutton10.get_y_pos())
-    generate(6, boardbutton11.get_x_pos(), boardbutton11.get_y_pos())
-    generate(6, boardbutton12.get_x_pos(), boardbutton12.get_y_pos())
+    # generate(6, boardbutton1.get_x_pos(), boardbutton1.get_y_pos())
+    # generate(6, boardbutton2.get_x_pos(), boardbutton2.get_y_pos())
+    # generate(6, boardbutton3.get_x_pos(), boardbutton3.get_y_pos())
+    # generate(6, boardbutton4.get_x_pos(), boardbutton4.get_y_pos())
+    # generate(6, boardbutton5.get_x_pos(), boardbutton5.get_y_pos())
+    # generate(6, boardbutton6.get_x_pos(), boardbutton6.get_y_pos())
+    # generate(6, boardbutton7.get_x_pos(), boardbutton7.get_y_pos())
+    # generate(6, boardbutton8.get_x_pos(), boardbutton8.get_y_pos())
+    # generate(6, boardbutton9.get_x_pos(), boardbutton9.get_y_pos())
+    # generate(6, boardbutton10.get_x_pos(), boardbutton10.get_y_pos())
+    # generate(6, boardbutton11.get_x_pos(), boardbutton11.get_y_pos())
+    # generate(6, boardbutton12.get_x_pos(), boardbutton12.get_y_pos())
 
-    generate_score_left(36)
-    generate_score_right(36)
+    # generate_score_left(36)
+    # generate_score_right(36)
 
-    boardbutton1.draw_text("1")
-    boardbutton2.draw_text("2")
-    boardbutton3.draw_text("3")
-    boardbutton4.draw_text("4")
-    boardbutton5.draw_text("5")
-    boardbutton6.draw_text("6")
-    boardbutton7.draw_text("7")
-    boardbutton8.draw_text("8")
-    boardbutton9.draw_text("9")
-    boardbutton10.draw_text("10")
-    boardbutton11.draw_text("11")
-    boardbutton12.draw_text("12")
+    update_board(engine)
 
-    Scoreleftbutton.draw_text("0")
-    Scorerightbutton.draw_text("0")
+    # boardbutton1.draw_text("1")
+    # boardbutton2.draw_text("2")
+    # boardbutton3.draw_text("3")
+    # boardbutton4.draw_text("4")
+    # boardbutton5.draw_text("5")
+    # boardbutton6.draw_text("6")
+    # boardbutton7.draw_text("7")
+    # boardbutton8.draw_text("8")
+    # boardbutton9.draw_text("9")
+    # boardbutton10.draw_text("10")
+    # boardbutton11.draw_text("11")
+    # boardbutton12.draw_text("12")
+
+    # Scoreleftbutton.draw_text("0")
+    # Scorerightbutton.draw_text("0")
 
     screen_display.update()
 
@@ -237,78 +240,120 @@ def draw_start_screen():
     pg.display.update()
 
 
+def update_board(engine):
+    generate(engine.board[0], boardbutton1.get_x_pos(), boardbutton1.get_y_pos())
+    generate(engine.board[1], boardbutton2.get_x_pos(), boardbutton2.get_y_pos())
+    generate(engine.board[2], boardbutton3.get_x_pos(), boardbutton3.get_y_pos())
+    generate(engine.board[3], boardbutton4.get_x_pos(), boardbutton4.get_y_pos())
+    generate(engine.board[4], boardbutton5.get_x_pos(), boardbutton5.get_y_pos())
+    generate(engine.board[5], boardbutton6.get_x_pos(), boardbutton6.get_y_pos())
+    generate(engine.board[12], boardbutton7.get_x_pos(), boardbutton7.get_y_pos())
+    generate(engine.board[11], boardbutton8.get_x_pos(), boardbutton8.get_y_pos())
+    generate(engine.board[10], boardbutton9.get_x_pos(), boardbutton9.get_y_pos())
+    generate(engine.board[9], boardbutton10.get_x_pos(), boardbutton10.get_y_pos())
+    generate(engine.board[8], boardbutton11.get_x_pos(), boardbutton11.get_y_pos())
+    generate(engine.board[7], boardbutton12.get_x_pos(), boardbutton12.get_y_pos())
+
+    generate_score_left(engine.board[13])
+    generate_score_right(engine.board[6])
+
+    boardbutton1.draw_text(str(engine.board[0]))
+    boardbutton2.draw_text(str(engine.board[1]))
+    boardbutton3.draw_text(str(engine.board[2]))
+    boardbutton4.draw_text(str(engine.board[3]))
+    boardbutton5.draw_text(str(engine.board[4]))
+    boardbutton6.draw_text(str(engine.board[5]))
+    boardbutton7.draw_text(str(engine.board[12]))
+    boardbutton8.draw_text(str(engine.board[11]))
+    boardbutton9.draw_text(str(engine.board[10]))
+    boardbutton10.draw_text(str(engine.board[9]))
+    boardbutton11.draw_text(str(engine.board[8]))
+    boardbutton12.draw_text(str(engine.board[7]))
+
+    Scoreleftbutton.draw_text(str(engine.board[13]))
+    Scorerightbutton.draw_text(str(engine.board[6]))
+
+
 clock = pg.time.Clock()
 
 
 window = True
+game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+game_engine = kalaha.kalaha(game_board)
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             window = False
-
         if button_start.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "game"
-
         if back_button.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "start_menu"
-
         if back_button_leaderboard.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "start_menu"
-
         if button_leaderboard.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "leaderboard"
-
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
-
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 0")
+                game_engine.move(0, False)
         if boardbutton2.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 1")
+                game_engine.move(1, False)
         if boardbutton3.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 2")
+                game_engine.move(2, False)
         if boardbutton4.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 3")
+                game_engine.move(3, False)
         if boardbutton5.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 4")
+                game_engine.move(4, False)
         if boardbutton6.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 5")
+                game_engine.move(5, False)
         if boardbutton7.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 12")
+                game_engine.move(12, True)
         if boardbutton8.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 11")
+                game_engine.move(11, True)
         if boardbutton9.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 10")
+                game_engine.move(10, True)
         if boardbutton10.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 9")
+                game_engine.move(9, True)
         if boardbutton11.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                print("test")
+                print("test 8")
+                game_engine.move(8, True)
         if boardbutton12.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 sound()
-                print("test")
+                print("test 7")
+                game_engine.move(7, True)
 
     if gamestate == "start_menu":
         draw_start_screen()
 
     if gamestate == "game":
-        draw_game()
+        draw_game(game_engine)
 
     if gamestate == "leaderboard":
         draw_leaderboard()
