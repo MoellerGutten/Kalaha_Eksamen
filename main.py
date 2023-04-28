@@ -290,6 +290,7 @@ window = True
 game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
 game_engine = kalaha.kalaha(game_board)
 isplayer1 = True
+isbot = False
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -315,32 +316,33 @@ while window:
         if button_choice_bot.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "game"
+                isbot = True
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(0, False)
         if boardbutton2.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(1, False)
         if boardbutton3.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(2, False)
         if boardbutton4.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(3, False)
         if boardbutton5.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(4, False)
         if boardbutton6.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(5, False)
         if boardbutton7.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
@@ -367,6 +369,9 @@ while window:
                 sound()
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(7, True)
+    if isbot and not isplayer1:
+        empty, isplayer1 = game_engine.bot_move()
+
     if game_engine.check_win()[0]:
         gamestate = "victory"
 
