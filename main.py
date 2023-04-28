@@ -49,8 +49,11 @@ gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 button_start = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 2, 300,  75, "start_menu", "Start Game")
 button_leaderboard = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 3, 300,  75, "start_menu", "Leaderboard")
 button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 4, 300,  75, "start_menu", "Quit")
-back_button = Button(light_grey, 50, 50, 200, 50, "game", "Back")
-back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Back")
+button_choice_player = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * -1.5, 300,  75, "choice", "Mod spiller")
+button_choice_bot = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * -0.5, 300,  75, "choice", "Mod bot")
+back_button = Button(light_grey, 50, 50, 200, 50, "game", "Tilbage")
+back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Tilbage")
+back_button_choice = Button(light_grey, 50, 50, 200, 50, "choice", "Tilbage")
 
 boardbutton1 = Button(light_grey, 204, 420, 65, 65, "game", "")
 boardbutton2 = Button(light_grey, 309, 420, 65, 65, "game", "")
@@ -137,6 +140,22 @@ def generate_score_left(n):
 def generate_score_right(n):
     for i in range(n):
         surface.blit(ball, ellipse2_points[i])
+
+def draw_game_choice():
+    surface.fill(white)
+
+    global gamestate
+
+    font = pg.font.SysFont('arial', 40)
+    title = font.render('Vælg i mellem:', True, black)
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 + offset * -3))
+
+    back_button_choice.draw(surface, 5, outline=black)
+
+    button_choice_player.draw(surface, 5, outline=black)
+    button_choice_bot.draw(surface, 5, outline=black)
+
+    pg.display.update()
 
 
 def draw_game(engine, player_status):
@@ -277,7 +296,7 @@ while window:
             window = False
         if button_start.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                gamestate = "game"
+                gamestate = "choice"
         if back_button.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "start_menu"
@@ -287,6 +306,15 @@ while window:
         if button_leaderboard.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "leaderboard"
+        if back_button_choice.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                gamestate = "start_menu"
+        if button_choice_player.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                gamestate = "game"
+        if button_choice_bot.isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                gamestate = "game"
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
@@ -357,6 +385,9 @@ while window:
 
     if gamestate == "leaderboard":
         draw_leaderboard()
+
+    if gamestate == "choice":
+        draw_game_choice()
 
     if gamestate == "quit":
         window = False
