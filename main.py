@@ -102,14 +102,15 @@ def generate(n, button_x, button_y):
 
     pos_x = (button_x + ball_x)
     pos_y = (button_y + ball_y)
-
+    if n == 1:
+        surface.blit(ball, (pos_x, pos_y))
     if n > 1:
         points1 = []
         points2 = []
 
         for i in range(n):
             if n < 6:
-                angle = i * (2 * pi / (n - 1))
+                angle = i * (2 * pi / (n - 1))-random.randrange(1,2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
@@ -117,16 +118,16 @@ def generate(n, button_x, button_y):
                 if i == 5:
                     break
             else:
-                angle = i * (2 * pi / (6 - 1))
+                angle = i * (2 * pi / (6 - 1))-random.randrange(1,2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
                 surface.blit(ball, points1[i])
         if n > 6:
             for i in range(n):
-                angle = i * (2 * pi / (n - 6))
-                x = math.cos(angle) * ball_x * 2 + pos_x
-                y = math.sin(angle) * ball_x * 2 + pos_y
+                angle = i * (2 * pi / (n - 6))-random.randrange(1,2)
+                x = math.cos(angle) * ball_x * 1.5 + pos_x
+                y = math.sin(angle) * ball_x * 1.5 + pos_y
                 points2.append((x, y))
                 surface.blit(ball, points2[i])
         surface.blit(ball, (pos_x, pos_y))
