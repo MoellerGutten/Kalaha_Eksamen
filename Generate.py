@@ -23,7 +23,7 @@ surface = screen_display.set_mode(res)
 
 angle = random.random()*pi*2
 
-ball = pg.image.load("Kalaha_Kugle.png")
+ball = pg.image.load("images/Kalaha_Kugle.png")
 ball_x = ball.get_size()[0]
 ball_y = ball.get_size()[1]
 
@@ -52,9 +52,9 @@ def generate_angle(n):
             surface.blit(ball, points1[i])
     if n > 6:
         for i in range(n):
-            angle = i * (2 * pi / (n - 6))
-            x = math.cos(angle) * ball_x * 2 + pos_x
-            y = math.sin(angle) * ball_x * 2 + pos_y
+            angle = i * (2 * pi / (n - 6))-1
+            x = math.cos(angle) * ball_x * 1.7 + pos_x
+            y = math.sin(angle) * ball_x * 1.7 + pos_y
             points2.append((x, y))
             surface.blit(ball, points2[i])
 
