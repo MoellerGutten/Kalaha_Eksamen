@@ -13,7 +13,7 @@ pg.init()
 mixer.init()
 
 width = 1000
-height = 1000
+height = 800
 
 gamewidth = 840
 gameheight = 210
@@ -27,7 +27,7 @@ light_grey = (197, 197, 197)
 grey = (100, 100, 100)
 black = (0, 0, 0)
 
-offset = 100
+offset = 80
 
 screen_display = pg.display
 
@@ -55,25 +55,25 @@ back_button = Button(light_grey, 50, 50, 200, 50, "game", "Tilbage")
 back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Tilbage")
 back_button_choice = Button(light_grey, 50, 50, 200, 50, "choice", "Tilbage")
 
-boardbutton1 = Button(light_grey, 204, 420, 65, 65, "game", "")
-boardbutton2 = Button(light_grey, 309, 420, 65, 65, "game", "")
-boardbutton3 = Button(light_grey, 414, 420, 65, 65, "game", "")
-boardbutton4 = Button(light_grey, 519, 420, 65, 65, "game", "")
-boardbutton5 = Button(light_grey, 624, 420, 65, 65, "game", "")
-boardbutton6 = Button(light_grey, 729, 420, 65, 65, "game", "")
-boardbutton7 = Button(light_grey, 204, 520, 65, 65, "game", "")
-boardbutton8 = Button(light_grey, 309, 520, 65, 65, "game", "")
-boardbutton9 = Button(light_grey, 414, 520, 65, 65, "game", "")
-boardbutton10 = Button(light_grey, 519, 520, 65, 65, "game", "")
-boardbutton11 = Button(light_grey, 624, 520, 65, 65, "game", "")
-boardbutton12 = Button(light_grey, 729, 520, 65, 65, "game", "")
-Scoreleftbutton = Button(light_grey, 90, 420, 90, 170, "game", "")
-Scorerightbutton = Button(light_grey, 820, 420, 90, 170, "game", "")
+boardbutton1 = Button(light_grey, 204, 320, 65, 65, "game", "")
+boardbutton2 = Button(light_grey, 309, 320, 65, 65, "game", "")
+boardbutton3 = Button(light_grey, 414, 320, 65, 65, "game", "")
+boardbutton4 = Button(light_grey, 519, 320, 65, 65, "game", "")
+boardbutton5 = Button(light_grey, 624, 320, 65, 65, "game", "")
+boardbutton6 = Button(light_grey, 729, 320, 65, 65, "game", "")
+boardbutton7 = Button(light_grey, 204, 420, 65, 65, "game", "")
+boardbutton8 = Button(light_grey, 309, 420, 65, 65, "game", "")
+boardbutton9 = Button(light_grey, 414, 420, 65, 65, "game", "")
+boardbutton10 = Button(light_grey, 519, 420, 65, 65, "game", "")
+boardbutton11 = Button(light_grey, 624, 420, 65, 65, "game", "")
+boardbutton12 = Button(light_grey, 729, 420, 65, 65, "game", "")
+Scoreleftbutton = Button(light_grey, 90, 320, 90, 170, "game", "")
+Scorerightbutton = Button(light_grey, 820, 320, 90, 170, "game", "")
 
 ellipse1_points = []
-ellipse1 = pg.Rect(90,420,90,170)
+ellipse1 = pg.Rect(90,320,90,170)
 ellipse2_points = []
-ellipse2 = pg.Rect(820,420,90,170)
+ellipse2 = pg.Rect(820,320,90,170)
 
 ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
