@@ -225,7 +225,7 @@ def draw_start_screen():
 
     font = pg.font.SysFont('arial', 80)
     title = font.render('Kalaha', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 3 - title.get_height() / 2 - offset))
 
     button_start.draw(surface, 5, outline=black)
 
