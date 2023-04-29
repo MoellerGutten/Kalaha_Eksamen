@@ -1,5 +1,5 @@
 import random
-
+import time
 
 class kalaha:
     def __init__(self, board):

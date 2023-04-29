@@ -8,26 +8,22 @@ from buttonclass import Button, imgButton
 from pygame import mixer
 import random
 
-
 pg.init()
 mixer.init()
 
-width = 1000
-height = 800
+WIDTH = 1000
+HEIGHT = 800
 
-gamewidth = 840
-gameheight = 210
+PI = math.pi
 
-pi = math.pi
+RES = [WIDTH, HEIGHT]
 
-res = [width, height]
+WHITE = (255, 255, 255)
+LIGHT_GREY = (197, 197, 197)
+GREY = (100, 100, 100)
+BLACK = (0, 0, 0)
 
-white = (255, 255, 255)
-light_grey = (197, 197, 197)
-grey = (100, 100, 100)
-black = (0, 0, 0)
-
-offset = 80
+OFFSET = 80
 
 screen_display = pg.display
 
@@ -36,7 +32,7 @@ window_icon = pg.image.load("images/window_icon.png")
 pg.display.set_caption("Kalaha")
 pg.display.set_icon(window_icon)
 
-surface = screen_display.set_mode(res)
+surface = screen_display.set_mode(RES)
 
 ball = pg.image.load("images/Kalaha_Kugle.png")
 ball = pg.transform.scale(ball, (25, 25))
@@ -46,29 +42,35 @@ gamestate = "start_menu"
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 
-button_start = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 2, 300,  75, "start_menu", "Start Game")
-button_leaderboard = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 3, 300,  75, "start_menu", "Leaderboard")
-button_quit = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * 4, 300,  75, "start_menu", "Quit")
-button_choice_player = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * -1.5, 300,  75, "choice", "Mod spiller")
-button_choice_bot = Button(light_grey, width / 2 - 300 / 2, height / 2 - 75 / 2 + offset * -0.5, 300,  75, "choice", "Mod bot")
-back_button = Button(light_grey, 50, 50, 200, 50, "game", "Tilbage")
-back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Tilbage")
-back_button_choice = Button(light_grey, 50, 50, 200, 50, "choice", "Tilbage")
+BUTTON_WIDTH = 300
+BUTTON_HEIGHT = 75
 
-boardbutton1 = Button(light_grey, 204, 320, 65, 65, "game", "")
-boardbutton2 = Button(light_grey, 309, 320, 65, 65, "game", "")
-boardbutton3 = Button(light_grey, 414, 320, 65, 65, "game", "")
-boardbutton4 = Button(light_grey, 519, 320, 65, 65, "game", "")
-boardbutton5 = Button(light_grey, 624, 320, 65, 65, "game", "")
-boardbutton6 = Button(light_grey, 729, 320, 65, 65, "game", "")
-boardbutton7 = Button(light_grey, 204, 420, 65, 65, "game", "")
-boardbutton8 = Button(light_grey, 309, 420, 65, 65, "game", "")
-boardbutton9 = Button(light_grey, 414, 420, 65, 65, "game", "")
-boardbutton10 = Button(light_grey, 519, 420, 65, 65, "game", "")
-boardbutton11 = Button(light_grey, 624, 420, 65, 65, "game", "")
-boardbutton12 = Button(light_grey, 729, 420, 65, 65, "game", "")
-Scoreleftbutton = Button(light_grey, 90, 320, 90, 170, "game", "")
-Scorerightbutton = Button(light_grey, 820, 320, 90, 170, "game", "")
+BUTTON_MIDDLE_X = WIDTH / 2 - BUTTON_WIDTH / 2
+
+
+button_start = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 425, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Start Game")
+button_leaderboard = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 500, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Leaderboard")
+button_quit = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 575, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Quit")
+button_choice_player = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 275, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod spiller")
+button_choice_bot = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 350, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod bot")
+back_button = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "game", "Tilbage")
+back_button_leaderboard = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "leaderboard", "Tilbage")
+back_button_choice = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Tilbage")
+
+boardbutton1 = Button(LIGHT_GREY, 204, 320, 65, 65, "game", "")
+boardbutton2 = Button(LIGHT_GREY, 309, 320, 65, 65, "game", "")
+boardbutton3 = Button(LIGHT_GREY, 414, 320, 65, 65, "game", "")
+boardbutton4 = Button(LIGHT_GREY, 519, 320, 65, 65, "game", "")
+boardbutton5 = Button(LIGHT_GREY, 624, 320, 65, 65, "game", "")
+boardbutton6 = Button(LIGHT_GREY, 729, 320, 65, 65, "game", "")
+boardbutton7 = Button(LIGHT_GREY, 204, 420, 65, 65, "game", "")
+boardbutton8 = Button(LIGHT_GREY, 309, 420, 65, 65, "game", "")
+boardbutton9 = Button(LIGHT_GREY, 414, 420, 65, 65, "game", "")
+boardbutton10 = Button(LIGHT_GREY, 519, 420, 65, 65, "game", "")
+boardbutton11 = Button(LIGHT_GREY, 624, 420, 65, 65, "game", "")
+boardbutton12 = Button(LIGHT_GREY, 729, 420, 65, 65, "game", "")
+Scoreleftbutton = Button(LIGHT_GREY, 90, 320, 90, 170, "game", "")
+Scorerightbutton = Button(LIGHT_GREY, 820, 320, 90, 170, "game", "")
 
 ellipse1_points = []
 ellipse1 = pg.Rect(90,320,90,170)
@@ -110,7 +112,7 @@ def generate(n, button_x, button_y):
 
         for i in range(n):
             if n < 6:
-                angle = i * (2 * pi / (n - 1))-random.randrange(1,2)
+                angle = i * (2 * PI / (n - 1)) - random.randrange(1, 2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
@@ -118,14 +120,14 @@ def generate(n, button_x, button_y):
                 if i == 5:
                     break
             else:
-                angle = i * (2 * pi / (6 - 1))-random.randrange(1,2)
+                angle = i * (2 * PI / (6 - 1)) - random.randrange(1, 2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
                 surface.blit(ball, points1[i])
         if n > 6:
             for i in range(n):
-                angle = i * (2 * pi / (n - 6))-random.randrange(1,2)
+                angle = i * (2 * PI / (n - 6)) - random.randrange(1, 2)
                 x = math.cos(angle) * ball_x * 1.5 + pos_x
                 y = math.sin(angle) * ball_x * 1.5 + pos_y
                 points2.append((x, y))
@@ -142,62 +144,39 @@ def generate_score_right(n):
     for i in range(n):
         surface.blit(ball, ellipse2_points[i])
 
+
 def draw_game_choice():
-    surface.fill(white)
+    surface.fill(WHITE)
 
     global gamestate
 
     font = pg.font.SysFont('arial', 40)
-    title = font.render('Vælg i mellem:', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 + offset * -3))
+    title = font.render('Vælg i mellem:', True, BLACK)
+    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 + OFFSET * -3))
 
-    back_button_choice.draw(surface, 5, outline=black)
+    back_button_choice.draw(surface, 5, outline=BLACK)
 
-    button_choice_player.draw(surface, 5, outline=black)
-    button_choice_bot.draw(surface, 5, outline=black)
+    button_choice_player.draw(surface, 5, outline=BLACK)
+    button_choice_bot.draw(surface, 5, outline=BLACK)
 
     pg.display.update()
 
 
 def draw_game(engine, player_status):
-    surface.fill(white)
+    surface.fill(WHITE)
 
     global gamestate
 
-    color = (255, 0, 0)
+    surface.blit(gameboard_img, (WIDTH / 2 - gameboard_img.get_width() / 2, HEIGHT / 2 - gameboard_img.get_height() / 2))
 
-    surface.blit(gameboard_img, (width / 2 - gameboard_img.get_width() / 2, height / 2 - gameboard_img.get_height() / 2))
-
-    # Rect om hele boardet
-    #debug_rect = pg.Rect(80, 395, 840, 210)
-    #pg.draw.rect(surface, black, debug_rect, 3)
-
-    # Rect om left score
-    #debug_rect = pg.Rect(90, 420, 90, 170)
-    #pg.draw.rect(surface, black, debug_rect, 3)
-
-    # Rect om right score
-    #debug_rect = pg.Rect(820, 420, 90, 170)
-    #pg.draw.rect(surface, black, debug_rect, 3)
-
-    # Rects for alle spille felterne
-
-    #for i in range(6):
-        #button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height/2 - gameheight / 2+25, 65, 65)
-        #button = pg.draw.rect(surface, color, button_rect)
-
-    #for i in range(6):
-        #button_rect = pg.Rect((gamewidth / 4.1) + i / 8 * gamewidth, height / 2 - gameheight / 2 + 125, 65, 65)
-        #button = pg.draw.rect(surface, color, button_rect)
-
-    back_button.draw(surface, 5, outline=black)
+    back_button.draw(surface, 5, outline=BLACK)
 
     font = pg.font.SysFont('arial', 40)
     if player_status:
-        title = font.render('Player 1', True, black)
+        title = font.render('Player 1', True, BLACK)
     else:
-        title = font.render('Player 2', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 3 - title.get_height() / 2 - offset))
+        title = font.render('Player 2', True, BLACK)
+    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 3 - title.get_height() / 2 - OFFSET))
 
     update_board(engine)
 
@@ -205,47 +184,47 @@ def draw_game(engine, player_status):
 
 
 def draw_leaderboard():
-    surface.fill(white)
+    surface.fill(WHITE)
 
     global gamestate
 
     font = pg.font.SysFont('arial', 40)
-    title = font.render('Leaderboard', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+    title = font.render('Leaderboard', True, BLACK)
+    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 - OFFSET))
 
-    back_button_leaderboard.draw(surface, 5, outline=black)
+    back_button_leaderboard.draw(surface, 5, outline=BLACK)
 
     pg.display.update()
 
 
 def draw_start_screen():
-    surface.fill(white)
+    surface.fill(WHITE)
 
     global gamestate
 
     font = pg.font.SysFont('arial', 80)
-    title = font.render('Kalaha', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 3 - title.get_height() / 2 - offset))
+    title = font.render('Kalaha', True, BLACK)
+    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 3 - title.get_height() / 2 - OFFSET))
 
-    button_start.draw(surface, 5, outline=black)
+    button_start.draw(surface, 5, outline=BLACK)
 
-    button_leaderboard.draw(surface, 5, outline=black)
+    button_leaderboard.draw(surface, 5, outline=BLACK)
 
-    button_quit.draw(surface, 5, outline=black)
+    button_quit.draw(surface, 5, outline=BLACK)
 
     pg.display.update()
 
 
 def draw_victory_screen(who_won):
-    surface.fill(white)
+    surface.fill(WHITE)
 
     global gamestate
 
     font = pg.font.SysFont('arial', 80)
-    title = font.render(who_won, True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+    title = font.render(who_won, True, BLACK)
+    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 - OFFSET))
 
-    back_button.draw(surface, 5, outline=black)
+    back_button.draw(surface, 5, outline=BLACK)
 
     pg.display.update()
 
