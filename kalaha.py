@@ -94,16 +94,16 @@ class kalaha:
                 test_board.append(element)
             score, motified_board = self.try_move(test_board, i, test_board[i], False)
             future_moves[i] += score
-            enemy_move, empty = self.minimax(False, motified_board)
-            enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[enemy_move], True)
+            enemy_move = self.minimax(False, motified_board)
+            enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[int(enemy_move)], True)
             enemy_future_moves[i] += enemy_score
             test_board = motified_board
             for y in range(6):
                 bmove = self.minimax(True, test_board)
-                score, motified_board = self.try_move(test_board, bmove, test_board[bmove], False)
+                score, motified_board = self.try_move(test_board, bmove, test_board[int(bmove)], False)
                 future_moves[i] += score
-                enemy_move, empty = self.minimax(False, motified_board)
-                enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[enemy_move], True)
+                enemy_move = self.minimax(False, motified_board)
+                enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[int(enemy_move)], True)
                 enemy_future_moves[i] += enemy_score
                 test_board = motified_board
         mini_max_diff = {}
@@ -111,6 +111,9 @@ class kalaha:
             diff = future_moves[i] - enemy_future_moves[i]
             mini_max_diff[i] = diff
 
+        print(mini_max_diff)
+        print(future_moves)
+        print(enemy_future_moves)
         bmove = max(mini_max_diff, key=mini_max_diff.get)
         wmove = min(future_moves, key=future_moves.get)
 
@@ -118,26 +121,22 @@ class kalaha:
         # location is asigned to the opposite hole
         location = 6 - dist
 
-        if bmove == "done":
-            return "Stop"
         if future_moves[bmove] == future_moves[wmove]:
             while True:
                 ran_num = random.randint(0, 5)
                 if self.board[ran_num] != 0:
-                    self.move(ran_num, False)
+                    return self.move(ran_num, False)
         elif self.board[bmove] == 0 and self.board[location] == 0:
             while True:
                 ran_num = random.randint(0, 5)
                 if self.board[ran_num] != 0:
-                    self.move(ran_num, False)
+                    return self.move(ran_num, False)
         else:
-            self.move(bmove, False)
+            return self.move(bmove, False)
 
     def minimax(self, max_turn, tested_board):
         enemy_best_possible_move = {}
         best_possible_move = {}
-        if self.check_win():
-            return "Done"
         if max_turn:
             start_score = tested_board[13]
             for y in range(6):
@@ -169,7 +168,7 @@ class kalaha:
                     outcome -= 3
                 enemy_best_possible_move[y] = outcome
             enemy_best_move = max(enemy_best_possible_move, key=enemy_best_possible_move.get)
-            return enemy_best_move, enemy_best_possible_move[enemy_best_move]
+            return enemy_best_move
 
     def try_move(self, old_board, location, amount, player1_turn):
         new_board = []

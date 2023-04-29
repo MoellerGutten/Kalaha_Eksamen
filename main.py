@@ -13,7 +13,7 @@ pg.init()
 mixer.init()
 
 width = 1000
-height = 1000
+height = 800
 
 gamewidth = 840
 gameheight = 210
@@ -27,7 +27,7 @@ light_grey = (197, 197, 197)
 grey = (100, 100, 100)
 black = (0, 0, 0)
 
-offset = 100
+offset = 80
 
 screen_display = pg.display
 
@@ -55,25 +55,25 @@ back_button = Button(light_grey, 50, 50, 200, 50, "game", "Tilbage")
 back_button_leaderboard = Button(light_grey, 50, 50, 200, 50, "leaderboard", "Tilbage")
 back_button_choice = Button(light_grey, 50, 50, 200, 50, "choice", "Tilbage")
 
-boardbutton1 = Button(light_grey, 204, 420, 65, 65, "game", "")
-boardbutton2 = Button(light_grey, 309, 420, 65, 65, "game", "")
-boardbutton3 = Button(light_grey, 414, 420, 65, 65, "game", "")
-boardbutton4 = Button(light_grey, 519, 420, 65, 65, "game", "")
-boardbutton5 = Button(light_grey, 624, 420, 65, 65, "game", "")
-boardbutton6 = Button(light_grey, 729, 420, 65, 65, "game", "")
-boardbutton7 = Button(light_grey, 204, 520, 65, 65, "game", "")
-boardbutton8 = Button(light_grey, 309, 520, 65, 65, "game", "")
-boardbutton9 = Button(light_grey, 414, 520, 65, 65, "game", "")
-boardbutton10 = Button(light_grey, 519, 520, 65, 65, "game", "")
-boardbutton11 = Button(light_grey, 624, 520, 65, 65, "game", "")
-boardbutton12 = Button(light_grey, 729, 520, 65, 65, "game", "")
-Scoreleftbutton = Button(light_grey, 90, 420, 90, 170, "game", "")
-Scorerightbutton = Button(light_grey, 820, 420, 90, 170, "game", "")
+boardbutton1 = Button(light_grey, 204, 320, 65, 65, "game", "")
+boardbutton2 = Button(light_grey, 309, 320, 65, 65, "game", "")
+boardbutton3 = Button(light_grey, 414, 320, 65, 65, "game", "")
+boardbutton4 = Button(light_grey, 519, 320, 65, 65, "game", "")
+boardbutton5 = Button(light_grey, 624, 320, 65, 65, "game", "")
+boardbutton6 = Button(light_grey, 729, 320, 65, 65, "game", "")
+boardbutton7 = Button(light_grey, 204, 420, 65, 65, "game", "")
+boardbutton8 = Button(light_grey, 309, 420, 65, 65, "game", "")
+boardbutton9 = Button(light_grey, 414, 420, 65, 65, "game", "")
+boardbutton10 = Button(light_grey, 519, 420, 65, 65, "game", "")
+boardbutton11 = Button(light_grey, 624, 420, 65, 65, "game", "")
+boardbutton12 = Button(light_grey, 729, 420, 65, 65, "game", "")
+Scoreleftbutton = Button(light_grey, 90, 320, 90, 170, "game", "")
+Scorerightbutton = Button(light_grey, 820, 320, 90, 170, "game", "")
 
 ellipse1_points = []
-ellipse1 = pg.Rect(90,420,90,170)
+ellipse1 = pg.Rect(90,320,90,170)
 ellipse2_points = []
-ellipse2 = pg.Rect(820,420,90,170)
+ellipse2 = pg.Rect(820,320,90,170)
 
 ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
@@ -102,14 +102,15 @@ def generate(n, button_x, button_y):
 
     pos_x = (button_x + ball_x)
     pos_y = (button_y + ball_y)
-
+    if n == 1:
+        surface.blit(ball, (pos_x, pos_y))
     if n > 1:
         points1 = []
         points2 = []
 
         for i in range(n):
             if n < 6:
-                angle = i * (2 * pi / (n - 1))
+                angle = i * (2 * pi / (n - 1))-random.randrange(1,2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
@@ -117,16 +118,16 @@ def generate(n, button_x, button_y):
                 if i == 5:
                     break
             else:
-                angle = i * (2 * pi / (6 - 1))
+                angle = i * (2 * pi / (6 - 1))-random.randrange(1,2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
                 surface.blit(ball, points1[i])
         if n > 6:
             for i in range(n):
-                angle = i * (2 * pi / (n - 6))
-                x = math.cos(angle) * ball_x * 2 + pos_x
-                y = math.sin(angle) * ball_x * 2 + pos_y
+                angle = i * (2 * pi / (n - 6))-random.randrange(1,2)
+                x = math.cos(angle) * ball_x * 1.5 + pos_x
+                y = math.sin(angle) * ball_x * 1.5 + pos_y
                 points2.append((x, y))
                 surface.blit(ball, points2[i])
         surface.blit(ball, (pos_x, pos_y))
@@ -224,7 +225,7 @@ def draw_start_screen():
 
     font = pg.font.SysFont('arial', 80)
     title = font.render('Kalaha', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
+    surface.blit(title, (width / 2 - title.get_width() / 2, height / 3 - title.get_height() / 2 - offset))
 
     button_start.draw(surface, 5, outline=black)
 
@@ -290,6 +291,7 @@ window = True
 game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
 game_engine = kalaha.kalaha(game_board)
 isplayer1 = True
+isbot = False
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -315,32 +317,33 @@ while window:
         if button_choice_bot.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "game"
+                isbot = True
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(0, False)
         if boardbutton2.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(1, False)
         if boardbutton3.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(2, False)
         if boardbutton4.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(3, False)
         if boardbutton5.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(4, False)
         if boardbutton6.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
-                if not isplayer1:
+                if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(5, False)
         if boardbutton7.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
@@ -367,6 +370,9 @@ while window:
                 sound()
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(7, True)
+    if isbot and not isplayer1:
+        empty, isplayer1 = game_engine.bot_move()
+
     if game_engine.check_win()[0]:
         gamestate = "victory"
 
