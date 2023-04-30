@@ -18,6 +18,15 @@ PI = math.pi
 
 RES = [WIDTH, HEIGHT]
 
+
+def center_width(obj_width):
+    return WIDTH / 2 - obj_width / 2
+
+
+def center_height(obj_height):
+    return HEIGHT / 2 - obj_height / 2
+
+
 WHITE = (255, 255, 255)
 LIGHT_GREY = (197, 197, 197)
 GREY = (100, 100, 100)
@@ -45,14 +54,12 @@ gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 75
 
-BUTTON_MIDDLE_X = WIDTH / 2 - BUTTON_WIDTH / 2
 
-
-button_start = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 425, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Start Game")
-button_leaderboard = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 500, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Leaderboard")
-button_quit = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 575, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Quit")
-button_choice_player = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 275, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod spiller")
-button_choice_bot = Button(LIGHT_GREY, BUTTON_MIDDLE_X, 350, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod bot")
+button_start = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 425, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Start Game")
+button_leaderboard = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 500, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Leaderboard")
+button_quit = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 575, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Quit")
+button_choice_player = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 275, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod spiller")
+button_choice_bot = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 350, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Mod bot")
 back_button = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "game", "Tilbage")
 back_button_leaderboard = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "leaderboard", "Tilbage")
 back_button_choice = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Tilbage")
@@ -152,7 +159,7 @@ def draw_game_choice():
 
     font = pg.font.SysFont('arial', 40)
     title = font.render('Vælg i mellem:', True, BLACK)
-    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 + OFFSET * -3))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) + OFFSET * -3))
 
     back_button_choice.draw(surface, 5, outline=BLACK)
 
@@ -167,7 +174,7 @@ def draw_game(engine, player_status):
 
     global gamestate
 
-    surface.blit(gameboard_img, (WIDTH / 2 - gameboard_img.get_width() / 2, HEIGHT / 2 - gameboard_img.get_height() / 2))
+    surface.blit(gameboard_img, (center_width(gameboard_img.get_width()), center_height(gameboard_img.get_height())))
 
     back_button.draw(surface, 5, outline=BLACK)
 
@@ -176,7 +183,7 @@ def draw_game(engine, player_status):
         title = font.render('Player 1', True, BLACK)
     else:
         title = font.render('Player 2', True, BLACK)
-    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 3 - title.get_height() / 2 - OFFSET))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 2*OFFSET))
 
     update_board(engine)
 
@@ -190,7 +197,7 @@ def draw_leaderboard():
 
     font = pg.font.SysFont('arial', 40)
     title = font.render('Leaderboard', True, BLACK)
-    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 - OFFSET))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
     back_button_leaderboard.draw(surface, 5, outline=BLACK)
 
@@ -204,7 +211,7 @@ def draw_start_screen():
 
     font = pg.font.SysFont('arial', 80)
     title = font.render('Kalaha', True, BLACK)
-    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 3 - title.get_height() / 2 - OFFSET))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
     button_start.draw(surface, 5, outline=BLACK)
 
@@ -222,7 +229,7 @@ def draw_victory_screen(who_won):
 
     font = pg.font.SysFont('arial', 80)
     title = font.render(who_won, True, BLACK)
-    surface.blit(title, (WIDTH / 2 - title.get_width() / 2, HEIGHT / 2 - title.get_height() / 2 - OFFSET))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
     back_button.draw(surface, 5, outline=BLACK)
 
