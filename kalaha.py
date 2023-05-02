@@ -1,6 +1,7 @@
 import random
 import time
 
+
 class kalaha:
     def __init__(self, board):
         self.board = board
@@ -48,7 +49,7 @@ class kalaha:
                     # location is now asigned to the right location, the loop went out of index
                     location = start_location - remain
                 # checks if the location is about to put a ball into the enemies goal and move it 1 more back
-                if location == -1:
+                if location == -1 or location == 13:
                     location -= 1
 
                 # gives the reached hole 1 ball
@@ -95,26 +96,28 @@ class kalaha:
             score, motified_board = self.try_move(test_board, i, test_board[i], False)
             future_moves[i] += score
             enemy_move = self.minimax(False, motified_board)
-            enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[int(enemy_move)], True)
+            enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[enemy_move], True)
             enemy_future_moves[i] += enemy_score
             test_board = motified_board
-            for y in range(6):
+            for __ in range(6):
                 bmove = self.minimax(True, test_board)
-                score, motified_board = self.try_move(test_board, bmove, test_board[int(bmove)], False)
+                score, motified_board = self.try_move(test_board, bmove, test_board[bmove], False)
                 future_moves[i] += score
                 enemy_move = self.minimax(False, motified_board)
-                enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[int(enemy_move)], True)
+                enemy_score, motified_board = self.try_move(motified_board, enemy_move, motified_board[enemy_move], True)
                 enemy_future_moves[i] += enemy_score
                 test_board = motified_board
         mini_max_diff = {}
         for i in range(len(future_moves)):
-            diff = future_moves[i] - enemy_future_moves[i]
+            diff =  future_moves[i] - enemy_future_moves[i]
             mini_max_diff[i] = diff
-
+        print("\n")
         print(mini_max_diff)
         print(future_moves)
         print(enemy_future_moves)
+
         bmove = max(mini_max_diff, key=mini_max_diff.get)
+        print(bmove)
         wmove = min(future_moves, key=future_moves.get)
 
         dist = bmove - 6
@@ -142,14 +145,19 @@ class kalaha:
             for y in range(6):
                 outcome = 0
                 score, motified_board = self.try_move(tested_board, y, tested_board[y], False)
-                if score > start_score + 2:
+                if score > start_score + 4:
+                    outcome += 5
+                elif score > start_score + 3:
+                    outcome += 4
+                elif score > start_score + 2:
                     outcome += 3
                 elif score > start_score + 1:
                     outcome += 2
                 elif score > start_score:
                     outcome += 1
                 else:
-                    outcome -= 3
+                    outcome -= 1
+                outcome -= self.check_enemyscore(motified_board, False, outcome)
                 best_possible_move[y] = outcome
             best_move = max(best_possible_move, key=best_possible_move.get)
             return best_move
@@ -158,14 +166,19 @@ class kalaha:
             for y in range(6):
                 outcome = 0
                 score, motified_board = self.try_move(tested_board, y, tested_board[y], True)
-                if score > start_score + 2:
+                if score > start_score + 4:
+                    outcome += 5
+                elif score > start_score + 3:
+                    outcome += 4
+                elif score > start_score + 2:
                     outcome += 3
                 elif score > start_score + 1:
                     outcome += 2
                 elif score > start_score:
                     outcome += 1
                 else:
-                    outcome -= 3
+                    outcome -= 1
+                outcome -= self.check_enemyscore(motified_board, True, outcome)
                 enemy_best_possible_move[y] = outcome
             enemy_best_move = max(enemy_best_possible_move, key=enemy_best_possible_move.get)
             return enemy_best_move
@@ -199,7 +212,7 @@ class kalaha:
                     # location is now asigned to the right location, the loop went out of index
                     location = start_location - remain
                 # checks if the location is about to put a ball into the enemies goal and move it 1 more back
-                if location == -1:
+                if location == -1 or location == 13:
                     location -= 1
 
                 # gives the reached hole 1 ball
@@ -207,7 +220,7 @@ class kalaha:
 
                 # Checks if the last ball went into the players goal. if it did, it gives the player another turn
                 if location == 6 and i + 1 == amount:
-                    new_board[6] += 3
+                    new_board[6] += 1
 
             send_board = []
             for element in new_board:
@@ -226,7 +239,7 @@ class kalaha:
                     # location is now asigned to the right location, the loop went out of index
                     location = start_location - remain
                 # checks if the location is about to put a ball into the enemies goal and move it 1 more back
-                if location == -8:
+                if location == -8 or location == 6:
                     location -= 1
 
                 # gives the reached hole 1 ball
@@ -240,3 +253,34 @@ class kalaha:
             for element in new_board:
                 send_board.append(element)
             return new_board[13], send_board
+
+    def check_enemyscore(self, board, turn, outcome):
+        enemy_outcome = 0
+        if turn:
+            start_score = board[13]
+        else:
+            start_score = board[6]
+        for y in range(6):
+            outcome = 0
+            score, __ = self.try_move(board, y, board[y], turn)
+            if score > start_score + 4:
+                outcome += 5
+            elif score > start_score + 3:
+                outcome += 4
+            elif score > start_score + 2:
+                outcome += 3
+            elif score > start_score + 1:
+                outcome += 2
+            elif score > start_score:
+                outcome += 1
+            else:
+                outcome -= 1
+        if outcome == 5:
+            enemy_outcome -= 4
+        elif outcome == 4:
+            enemy_outcome -= 3
+        elif outcome == 3:
+            enemy_outcome -= 2
+        elif outcome == 2:
+            enemy_outcome -= 1
+        return enemy_outcome

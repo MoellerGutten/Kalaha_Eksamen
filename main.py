@@ -265,7 +265,6 @@ def update_board(engine):
     boardbutton10.draw_text(str(engine.board[9]))
     boardbutton11.draw_text(str(engine.board[8]))
     boardbutton12.draw_text(str(engine.board[7]))
-
     Scoreleftbutton.draw_text(str(engine.board[13]))
     Scorerightbutton.draw_text(str(engine.board[6]))
 
