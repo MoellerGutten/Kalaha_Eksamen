@@ -51,6 +51,12 @@ gamestate = "start_menu"
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 
+window = True
+game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+game_engine = kalaha.kalaha(game_board)
+isplayer1 = True
+isbot = False
+
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 75
 
@@ -64,18 +70,17 @@ back_button = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "game", "T
 back_button_leaderboard = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "leaderboard", "Tilbage")
 back_button_choice = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Tilbage")
 
-boardbutton1 = Button(LIGHT_GREY, 204, 320, 65, 65, "game", "")
-boardbutton2 = Button(LIGHT_GREY, 309, 320, 65, 65, "game", "")
-boardbutton3 = Button(LIGHT_GREY, 414, 320, 65, 65, "game", "")
-boardbutton4 = Button(LIGHT_GREY, 519, 320, 65, 65, "game", "")
-boardbutton5 = Button(LIGHT_GREY, 624, 320, 65, 65, "game", "")
-boardbutton6 = Button(LIGHT_GREY, 729, 320, 65, 65, "game", "")
-boardbutton7 = Button(LIGHT_GREY, 204, 420, 65, 65, "game", "")
-boardbutton8 = Button(LIGHT_GREY, 309, 420, 65, 65, "game", "")
-boardbutton9 = Button(LIGHT_GREY, 414, 420, 65, 65, "game", "")
-boardbutton10 = Button(LIGHT_GREY, 519, 420, 65, 65, "game", "")
-boardbutton11 = Button(LIGHT_GREY, 624, 420, 65, 65, "game", "")
-boardbutton12 = Button(LIGHT_GREY, 729, 420, 65, 65, "game", "")
+boardbutton_list = []
+
+for i in range(6):
+    #(globals()['boardbutton%s' % (i+1)] =  Button(LIGHT_GREY, 204 + i * 105, 320, 65, 65, "game", ""))
+    boardbutton_list.append(Button(LIGHT_GREY, 204 + i * 105, 320, 65, 65, "game", ""))
+for i in range(6):
+    #globals()['boardbutton%s' % (i+7)] =  Button(LIGHT_GREY, 204 + i * 105, 420, 65, 65, "game", "")
+    boardbutton_list.append(Button(LIGHT_GREY, 204 + i * 105, 420, 65, 65, "game", ""))
+
+
+
 Scoreleftbutton = Button(LIGHT_GREY, 90, 320, 90, 170, "game", "")
 Scorerightbutton = Button(LIGHT_GREY, 820, 320, 90, 170, "game", "")
 
@@ -234,49 +239,43 @@ def draw_victory_screen(who_won):
     back_button.draw(surface, 5, outline=BLACK)
 
     pg.display.update()
+"""
+def gameclick(i):
 
+    global isplayer1
+    global isbot
 
+    if i <= 5:
+        if boardbutton_list[i].isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                if not isplayer1 and not isbot:
+                    empty, isplayer1 = game_engine.move(i, False)
+    if i >= 6:
+        if boardbutton_list[i].isOver(gamestate):
+            if event.type == pg.MOUSEBUTTONUP:
+                if not isplayer1 and not isbot:
+                    empty, isplayer1 = game_engine.move(18-i, False)
+"""
 def update_board(engine):
-    generate(engine.board[0], boardbutton1.get_x_pos(), boardbutton1.get_y_pos())
-    generate(engine.board[1], boardbutton2.get_x_pos(), boardbutton2.get_y_pos())
-    generate(engine.board[2], boardbutton3.get_x_pos(), boardbutton3.get_y_pos())
-    generate(engine.board[3], boardbutton4.get_x_pos(), boardbutton4.get_y_pos())
-    generate(engine.board[4], boardbutton5.get_x_pos(), boardbutton5.get_y_pos())
-    generate(engine.board[5], boardbutton6.get_x_pos(), boardbutton6.get_y_pos())
-    generate(engine.board[12], boardbutton7.get_x_pos(), boardbutton7.get_y_pos())
-    generate(engine.board[11], boardbutton8.get_x_pos(), boardbutton8.get_y_pos())
-    generate(engine.board[10], boardbutton9.get_x_pos(), boardbutton9.get_y_pos())
-    generate(engine.board[9], boardbutton10.get_x_pos(), boardbutton10.get_y_pos())
-    generate(engine.board[8], boardbutton11.get_x_pos(), boardbutton11.get_y_pos())
-    generate(engine.board[7], boardbutton12.get_x_pos(), boardbutton12.get_y_pos())
+    for i in range(12):
+        if i <= 5:
+            generate(engine.board[i], boardbutton_list[i].get_x_pos(), boardbutton_list[i].get_y_pos())
+        elif i >= 6:
+            generate(engine.board[18 - i], boardbutton_list[i].get_x_pos(), boardbutton_list[i].get_y_pos())
 
     generate_score_left(engine.board[13])
     generate_score_right(engine.board[6])
 
-    boardbutton1.draw_text(str(engine.board[0]))
-    boardbutton2.draw_text(str(engine.board[1]))
-    boardbutton3.draw_text(str(engine.board[2]))
-    boardbutton4.draw_text(str(engine.board[3]))
-    boardbutton5.draw_text(str(engine.board[4]))
-    boardbutton6.draw_text(str(engine.board[5]))
-    boardbutton7.draw_text(str(engine.board[12]))
-    boardbutton8.draw_text(str(engine.board[11]))
-    boardbutton9.draw_text(str(engine.board[10]))
-    boardbutton10.draw_text(str(engine.board[9]))
-    boardbutton11.draw_text(str(engine.board[8]))
-    boardbutton12.draw_text(str(engine.board[7]))
+    for i in range(12):
+        if i <= 5:
+            boardbutton_list[i].draw_text(str(engine.board[i]))
+        elif i >= 6:
+            boardbutton_list[i].draw_text(str(engine.board[18 - i]))
+
     Scoreleftbutton.draw_text(str(engine.board[13]))
     Scorerightbutton.draw_text(str(engine.board[6]))
 
 
-clock = pg.time.Clock()
-
-
-window = True
-game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
-game_engine = kalaha.kalaha(game_board)
-isplayer1 = True
-isbot = False
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -306,55 +305,71 @@ while window:
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
-        if boardbutton1.isOver(gamestate):
+        
+        if boardbutton_list[0].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(0, False)
-        if boardbutton2.isOver(gamestate):
+        if boardbutton_list[1].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(1, False)
-        if boardbutton3.isOver(gamestate):
+        if boardbutton_list[2].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(2, False)
-        if boardbutton4.isOver(gamestate):
+        if boardbutton_list[3].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(3, False)
-        if boardbutton5.isOver(gamestate):
+        if boardbutton_list[4].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(4, False)
-        if boardbutton6.isOver(gamestate):
+        if boardbutton_list[5].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     empty, isplayer1 = game_engine.move(5, False)
-        if boardbutton7.isOver(gamestate):
+        if boardbutton_list[6].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(12, True)
-        if boardbutton8.isOver(gamestate):
+        if boardbutton_list[7].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(11, True)
-        if boardbutton9.isOver(gamestate):
+        if boardbutton_list[8].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(10, True)
-        if boardbutton10.isOver(gamestate):
+        if boardbutton_list[9].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(9, True)
-        if boardbutton11.isOver(gamestate):
+        if boardbutton_list[10].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(8, True)
-        if boardbutton12.isOver(gamestate):
+        if boardbutton_list[11].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 sound()
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(7, True)
+        """
+        gameclick(0)
+        gameclick(1)
+        gameclick(2)
+        gameclick(3)
+        gameclick(4)
+        gameclick(5)
+        gameclick(6)
+        gameclick(7)
+        gameclick(8)
+        gameclick(9)
+        gameclick(10)
+        gameclick(11)
+        """
+
     if isbot and not isplayer1:
         empty, isplayer1 = game_engine.bot_move()
 
