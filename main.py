@@ -88,6 +88,7 @@ ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
 
 
+
 for i in range(72):
     ball_pos_x1 = random.randrange(ellipse_x1[0], ellipse_x1[1])
     ball_pos_y1 = random.randrange(ellipse1.y, ellipse1.y + ellipse1.height)
@@ -265,8 +266,46 @@ def update_board(engine):
     boardbutton10.draw_text(str(engine.board[9]))
     boardbutton11.draw_text(str(engine.board[8]))
     boardbutton12.draw_text(str(engine.board[7]))
+
     Scoreleftbutton.draw_text(str(engine.board[13]))
     Scorerightbutton.draw_text(str(engine.board[6]))
+
+
+
+def update_move(oldboard, newboard, engine):
+    correct_button_list = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 0, 13: 0, 12: 7, 11: 8, 10: 9, 9: 10, 8: 11, 7: 12}
+    update_list = []
+    updated_board = []
+    y = 0
+    i = 0
+    z = 1
+    for element in oldboard:
+        new_value =  newboard[y] - element
+        updated_board.append(new_value)
+        y += 1
+    for element in updated_board:
+        if element > 0 or element < 0:
+            update_list.append(i)
+        i += 1
+    print(update_list)
+    for __ in range(len(update_list)):
+        if update_list[z * (-1)] == 0:
+            x = f"boardbutton{1}"
+        else:
+            x = f"boardbutton{correct_button_list[update_list[z * (-1)]]}"
+        num = update_list[z * (-1)]
+        print(num)
+        print(x)
+        if num == 6:
+            Scorerightbutton.draw_text(str(engine.board[6]))
+        elif num == 13:
+            Scoreleftbutton.draw_text(str(engine.board[13]))
+        else:
+            eval(x).draw_text(str(engine.board[num]))
+        pg.display.update()
+        sound()
+        pg.time.delay(500)
+        z += 1
 
 
 clock = pg.time.Clock()
@@ -274,6 +313,10 @@ clock = pg.time.Clock()
 
 window = True
 game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+gameBoard = []
+for element in game_board:
+    gameBoard.append(element)
+
 game_engine = kalaha.kalaha(game_board)
 isplayer1 = True
 isbot = False
@@ -355,6 +398,14 @@ while window:
                 sound()
                 if isplayer1:
                     empty, isplayer1 = game_engine.move(7, True)
+
+    if gameBoard != game_engine.board:
+        update_move(gameBoard, game_engine.board, game_engine)
+        gameBoard = []
+        for element in game_engine.board:
+            gameBoard.append(element)
+        update_board(game_engine)
+
     if isbot and not isplayer1:
         empty, isplayer1 = game_engine.bot_move()
 

@@ -157,7 +157,7 @@ class kalaha:
                     outcome += 1
                 else:
                     outcome -= 1
-                outcome -= self.check_enemyscore(motified_board, False, outcome)
+                outcome -= self.check_enemyscore(motified_board, False)
                 best_possible_move[y] = outcome
             best_move = max(best_possible_move, key=best_possible_move.get)
             return best_move
@@ -178,7 +178,7 @@ class kalaha:
                     outcome += 1
                 else:
                     outcome -= 1
-                outcome -= self.check_enemyscore(motified_board, True, outcome)
+                outcome -= self.check_enemyscore(motified_board, True)
                 enemy_best_possible_move[y] = outcome
             enemy_best_move = max(enemy_best_possible_move, key=enemy_best_possible_move.get)
             return enemy_best_move
@@ -254,7 +254,7 @@ class kalaha:
                 send_board.append(element)
             return new_board[13], send_board
 
-    def check_enemyscore(self, board, turn, outcome):
+    def check_enemyscore(self, board, turn):
         enemy_outcome = 0
         if turn:
             start_score = board[13]
