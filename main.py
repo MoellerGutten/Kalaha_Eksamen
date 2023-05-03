@@ -289,12 +289,8 @@ def update_move(oldboard, newboard, engine):
         i += 1
     print(update_list)
     for __ in range(len(update_list)):
-        if update_list[z * (-1)] == 0:
-            x = f"boardbutton{1}"
-        else:
-            x = f"boardbutton{correct_button_list[update_list[z * (-1)]]}"
+        x = f"boardbutton{correct_button_list[update_list[z * (-1)]]}"
         num = update_list[z * (-1)]
-        print(num)
         print(x)
         if num == 6:
             Scorerightbutton.draw_text(str(engine.board[6]))
@@ -302,6 +298,7 @@ def update_move(oldboard, newboard, engine):
             Scoreleftbutton.draw_text(str(engine.board[13]))
         else:
             eval(x).draw_text(str(engine.board[num]))
+            print(num)
         pg.display.update()
         sound()
         pg.time.delay(500)
