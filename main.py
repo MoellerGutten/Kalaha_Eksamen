@@ -170,7 +170,7 @@ def draw_game_choice():
     pg.display.update()
 
 
-def draw_game(engine, player_status):
+def draw_game(engine, player_status, bot_move):
     surface.fill(WHITE)
 
     global gamestate
@@ -184,7 +184,11 @@ def draw_game(engine, player_status):
         title = font.render('Player 1', True, BLACK)
     else:
         title = font.render('Player 2', True, BLACK)
-    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 2*OFFSET))
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 2 * OFFSET))
+
+    font = pg.font.SysFont('arial', 40)
+    title = font.render(f'Bot moved: {bot_move}', True, BLACK)
+    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 3 * OFFSET))
 
     update_board(engine)
 
@@ -276,33 +280,35 @@ def update_move(oldboard, newboard, engine):
     correct_button_list = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 0, 13: 0, 12: 7, 11: 8, 10: 9, 9: 10, 8: 11, 7: 12}
     update_list = []
     updated_board = []
+    starting_point = None
     y = 0
     i = 0
-    z = 1
     for element in oldboard:
         new_value =  newboard[y] - element
         updated_board.append(new_value)
         y += 1
     for element in updated_board:
-        if element > 0 or element < 0:
+        if element > 0:
             update_list.append(i)
+        elif element < 0:
+            update_list.append(i)
+            starting_point = i
         i += 1
-    print(update_list)
+    starting_point = update_list.index(starting_point)
+    z = starting_point
     for __ in range(len(update_list)):
-        x = f"boardbutton{correct_button_list[update_list[z * (-1)]]}"
-        num = update_list[z * (-1)]
-        print(x)
+        x = f"boardbutton{correct_button_list[update_list[z]]}"
+        num = update_list[z]
         if num == 6:
             Scorerightbutton.draw_text(str(engine.board[6]))
         elif num == 13:
             Scoreleftbutton.draw_text(str(engine.board[13]))
         else:
             eval(x).draw_text(str(engine.board[num]))
-            print(num)
         pg.display.update()
         sound()
-        pg.time.delay(500)
-        z += 1
+        pg.time.delay(250)
+        z -= 1
 
 
 clock = pg.time.Clock()
@@ -317,6 +323,7 @@ for element in game_board:
 game_engine = kalaha.kalaha(game_board)
 isplayer1 = True
 isbot = False
+bot_move = None
 while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -349,52 +356,52 @@ while window:
         if boardbutton1.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(0, False)
+                    __, isplayer1 = game_engine.move(0, False)
         if boardbutton2.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(1, False)
+                    __, isplayer1 = game_engine.move(1, False)
         if boardbutton3.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(2, False)
+                    __, isplayer1 = game_engine.move(2, False)
         if boardbutton4.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(3, False)
+                    __, isplayer1 = game_engine.move(3, False)
         if boardbutton5.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(4, False)
+                    __, isplayer1 = game_engine.move(4, False)
         if boardbutton6.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
-                    empty, isplayer1 = game_engine.move(5, False)
+                    __, isplayer1 = game_engine.move(5, False)
         if boardbutton7.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(12, True)
+                    __, isplayer1 = game_engine.move(12, True)
         if boardbutton8.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(11, True)
+                    __, isplayer1 = game_engine.move(11, True)
         if boardbutton9.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(10, True)
+                    __, isplayer1 = game_engine.move(10, True)
         if boardbutton10.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(9, True)
+                    __, isplayer1 = game_engine.move(9, True)
         if boardbutton11.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(8, True)
+                    __, isplayer1 = game_engine.move(8, True)
         if boardbutton12.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 sound()
                 if isplayer1:
-                    empty, isplayer1 = game_engine.move(7, True)
+                    __, isplayer1 = game_engine.move(7, True)
 
     if gameBoard != game_engine.board:
         update_move(gameBoard, game_engine.board, game_engine)
@@ -402,9 +409,6 @@ while window:
         for element in game_engine.board:
             gameBoard.append(element)
         update_board(game_engine)
-
-    if isbot and not isplayer1:
-        empty, isplayer1 = game_engine.bot_move()
 
     if game_engine.check_win()[0]:
         gamestate = "victory"
@@ -420,7 +424,7 @@ while window:
         draw_start_screen()
 
     if gamestate == "game":
-        draw_game(game_engine, isplayer1)
+        draw_game(game_engine, isplayer1, bot_move)
 
     if gamestate == "leaderboard":
         draw_leaderboard()
@@ -430,5 +434,8 @@ while window:
 
     if gamestate == "quit":
         window = False
+
+    if isbot and not isplayer1:
+        bot_move, isplayer1 = game_engine.bot_move()
 
 pg.quit()

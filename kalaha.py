@@ -23,6 +23,7 @@ class kalaha:
         print(f"{self.board[13]} |{self.board[12]}|{self.board[11]}|{self.board[10]}|{self.board[9]}|{self.board[8]}|{self.board[7]}| {self.board[6]}\n")
 
     def move(self, location, player1_turn):
+        saveMove = location
         # If the player choices a hole that has 0 ball, it chocies the hole opposite
         amount = self.board[location]
         if amount == 0:
@@ -84,7 +85,7 @@ class kalaha:
                     player1_turn = False
                 else:
                     player1_turn = True
-        return self.board, player1_turn
+        return saveMove, player1_turn
 
     def bot_move(self):
         future_moves = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
@@ -256,6 +257,7 @@ class kalaha:
 
     def check_enemyscore(self, board, turn):
         enemy_outcome = 0
+        outcome = None
         if turn:
             start_score = board[13]
         else:
