@@ -20,15 +20,14 @@ surface = screen_display.set_mode(res)
 
 # Template from S0
 class Button:
-    def __init__(self, color, button_width, button_height, index, buttongamestate, text=''):
+    def __init__(self, color, x, y, button_width, button_height, buttongamestate, text=''):
         self.color = color
         self.button_width = button_width
         self.button_height = button_height
         self.buttongamestate = buttongamestate
         self.text = text
-        self.index = index
-        self.x = width / 2 - self.button_width / 2
-        self.y = height / 2 - self.button_height / 2 + offset * self.index
+        self.x = x
+        self.y = y
 
     def draw(self, surface, border_width, outline):
         # Call this method to draw the button on the screen
@@ -45,6 +44,17 @@ class Button:
             # Parameters in order of appearance: (text, x, y)
             surface.blit(text, (self.x + (self.button_width / 2 - text.get_width() / 2), self.y + (self.button_height / 2 - text.get_height() / 2)))
 
+    def draw_text(self, text):
+        if text != '':
+            font = pg.font.SysFont('arial', 80)
+            font2 = pg.font.SysFont('arial', 90)
+            toWrite1 = font.render(text, True, white)
+            toWrite2 = font2.set_bold(True)
+            toWrite2 = font2.render(text, True, black)
+            # Parameters in order of appearance: (text, x, y), where the x and y is centered
+            surface.blit(toWrite2, (self.x + (self.button_width / 2 - toWrite2.get_width() / 2), self.y + (self.button_height / 2 - toWrite2.get_height() / 2)))
+            surface.blit(toWrite1, (self.x + (self.button_width / 2 - toWrite1.get_width() / 2), self.y + (self.button_height / 2 - toWrite1.get_height() / 2)))
+
     def isOver(self, gamestate):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         pos = pg.mouse.get_pos()
@@ -56,24 +66,16 @@ class Button:
                     return True
         return False
 
+    def get_x_pos(self):
+        return self.x
 
-
-class backButton(Button):
-    def __init__(self, color,  x, y, button_width, button_height, index, buttongamestate, text=''):
-        Button.__init__(self, color, button_width, button_height, index, buttongamestate, text='')
-        self.color = color
-        self.button_width = button_width
-        self.button_height = button_height
-        self.buttongamestate = buttongamestate
-        self.text = text
-        self.index = index
-        self.x = x
-        self.y = y
+    def get_y_pos(self):
+        return self.y
 
 
 class imgButton:
     def __init__(self, img, x, y):
-        self.img = pg.image.load(img)
+        self.img = img
         self.button_width = self.img.get_width()
         self.button_height = self.img.get_height()
         self.imgRect = self.img.get_rect()
