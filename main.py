@@ -32,6 +32,7 @@ def center_height(obj_height):
 
 
 WHITE = (255, 255, 255)
+black = (0,0,0)
 LIGHT_GREY = (197, 197, 197)
 GREY = (100, 100, 100)
 BLACK = (0, 0, 0)
@@ -109,17 +110,15 @@ def sound():
     mixer.music.set_volume(0.5)
     mixer.music.play()
 
-def update_database(stilling, resultat):
+def update_database(stilling1, stilling2, resultat):
     tidspunkt = date.today()
+    stilling = str(stilling1) + " - " + str(stilling2)
     con = None
     con = lite.connect("leaderboard.db")
     cur = con.cursor()
     cur.execute("INSERT INTO leaderbord(stilling, resultat, tidspunkt) VALUES('" + str(stilling) + "','" + str(resultat) + "', '" + str(tidspunkt) + "')")
     con.commit()
     con.close()
-
-def update_leaderboard():
-    print("hello")
 
 
 def generate(n, button_x, button_y):
@@ -221,7 +220,6 @@ def draw_leaderboard():
     font = pg.font.SysFont('arial', 40)
 
     title = font.render('Leaderboard', True, BLACK)
-    surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
 
     back_button_leaderboard.draw(surface, 5, outline=BLACK)
@@ -231,32 +229,28 @@ def draw_leaderboard():
     cur = con.cursor()
 
     i = 35
-    column_space = 200
+    column_space = 250
 
-    head1 = font.render(f'Spiller', True, black)
+    head1 = font.render(f'Resultat', True, black)
     head2 = font.render(f'Stilling', True, black)
-    head3 = font.render(f'Resultat', True, black)
     head4 = font.render(f'Dato', True, black)
-    surface.blit(head1, [gamewidth / 5, (700 / 4) + 5])
-    surface.blit(head2, [gamewidth / 5 + column_space, (700 / 4) + 5])
-    surface.blit(head3, [gamewidth / 5 + 2 * column_space, (700 / 4) + 5])
-    surface.blit(head4, [gamewidth / 5 + 3 * column_space, (700 / 4) + 5])
+    surface.blit(head1, [WIDTH / 6, (700 / 4) + 5])
+    surface.blit(head2, [WIDTH / 6 + column_space, (700 / 4) + 5])
+    surface.blit(head4, [WIDTH / 6 + 2 * column_space, (700 / 4) + 5])
 
 
 
     cur.execute('SELECT * FROM leaderbord')
     rows = cur.fetchall()
     for row in rows:
-        column1 = font.render('{:>5}'.format(str(row[1])), True, black)
-        column2 = font.render('{:30}'.format(str(row[2])), True, black)
+        column1 = font.render('{:>5}'.format(str(row[2])), True, black)
+        column2 = font.render('{:30}'.format(str(row[1])), True, black)
         column3 = font.render('{:60}'.format(row[3]), True, black)
-        column4 = font.render('{:90}'.format(row[4]), True, black)
-        surface.blit(column1, [gamewidth / 5, (700 / 4) + i + 5])
-        surface.blit(column2, [gamewidth / 5 + column_space, (700 / 4) + i + 5])
-        surface.blit(column3, [gamewidth / 5 + 2*column_space, (700 / 4) + i + 5])
-        surface.blit(column4, [gamewidth / 5 + 3*column_space, (700 / 4) + i + 5])
+        surface.blit(column1, [WIDTH / 6, (700 / 4) + i + 5])
+        surface.blit(column2, [WIDTH / 6 + column_space, (700 / 4) + i + 5])
+        surface.blit(column3, [WIDTH / 6 + 2*column_space, (700 / 4) + i + 5])
 
-        i += 39
+        i += 40
     con.close()
 
     pg.display.update()
@@ -280,7 +274,7 @@ def draw_start_screen():
     pg.display.update()
 
 
-def draw_victory_screen(who_won):
+def draw_victory_screen(who_won, stilling1, stilling2):
     surface.fill(WHITE)
 
     global gamestate
@@ -288,6 +282,8 @@ def draw_victory_screen(who_won):
     font = pg.font.SysFont('arial', 80)
     title = font.render(who_won, True, BLACK)
     surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
+
+    update_database(stilling1, stilling2, who_won)
 
     back_button.draw(surface, 5, outline=BLACK)
 
@@ -467,7 +463,7 @@ while window:
         gamestate = "victory"
 
     if gamestate == "victory":
-        draw_victory_screen(game_engine.check_win()[1])
+        draw_victory_screen(game_engine.check_win()[1],game_engine.board[6], game_engine.board[13])
         time.sleep(5)
         gamestate = "start_menu"
         game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
