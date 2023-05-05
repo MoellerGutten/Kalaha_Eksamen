@@ -1,9 +1,11 @@
 import math
-
+import sqlite3 as lite
 import pygame as pg
+import pygame_menu as pgm
 from buttonclass import Button, backButton, imgButton
 from pygame import mixer
 import random
+from datetime import date
 
 
 pg.init()
@@ -79,6 +81,18 @@ def sound():
     mixer.music.set_volume(0.5)
     mixer.music.play()
 
+def update_database(stilling, resultat):
+    tidspunkt = date.today()
+    con = None
+    con = lite.connect("leaderboard.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO leaderbord(stilling, resultat, tidspunkt) VALUES('" + str(stilling) + "','" + str(resultat) + "', '" + str(tidspunkt) + "')")
+    con.commit()
+    con.close()
+
+def update_leaderboard():
+    print("hello")
+
 
 def generate(n):
     ball_x = ball.get_size()[0]
@@ -127,6 +141,7 @@ def generate_ellipse(n):
 
 
 def draw_game():
+    end_time = 0
     surface.fill(white)
 
     global gamestate
@@ -145,9 +160,15 @@ def draw_game():
         pg.draw.rect(surface, color,
                      pg.Rect((gamewidth / 2) + i / 7 * gamewidth-26, height - (height - gameheight / 2)+400, 40, 120))
 
+    pressed = pg.key.get_pressed()
+    k = 50
     if img_button.isOver():
-        if event.type == pg.MOUSEBUTTONUP:
-            img_button.move_button()
+        #if event.type == pg.MOUSEBUTTONDOWN:
+        if pressed[pg.K_RIGHT]:
+            for k in range(50):
+                img_button.move_button()
+
+
 
     back_button.draw(surface, 5, outline=black)
 
@@ -161,9 +182,41 @@ def draw_leaderboard():
 
     font = pg.font.SysFont('arial', 40)
     title = font.render('Leaderboard', True, black)
-    surface.blit(title, (width / 2 - title.get_width() / 2, height / 2 - title.get_height() / 2 - offset))
 
     back_button_leaderboard.draw(surface, 5, outline=black)
+
+    con = None
+    con = lite.connect("leaderboard.db")
+    cur = con.cursor()
+
+    i = 35
+    column_space = 200
+
+    head1 = font.render(f'Spiller', True, black)
+    head2 = font.render(f'Stilling', True, black)
+    head3 = font.render(f'Resultat', True, black)
+    head4 = font.render(f'Dato', True, black)
+    surface.blit(head1, [gamewidth / 5, (700 / 4) + 5])
+    surface.blit(head2, [gamewidth / 5 + column_space, (700 / 4) + 5])
+    surface.blit(head3, [gamewidth / 5 + 2 * column_space, (700 / 4) + 5])
+    surface.blit(head4, [gamewidth / 5 + 3 * column_space, (700 / 4) + 5])
+
+
+
+    cur.execute('SELECT * FROM leaderbord')
+    rows = cur.fetchall()
+    for row in rows:
+        column1 = font.render('{:>5}'.format(str(row[1])), True, black)
+        column2 = font.render('{:30}'.format(str(row[2])), True, black)
+        column3 = font.render('{:60}'.format(row[3]), True, black)
+        column4 = font.render('{:90}'.format(row[4]), True, black)
+        surface.blit(column1, [gamewidth / 5, (700 / 4) + i + 5])
+        surface.blit(column2, [gamewidth / 5 + column_space, (700 / 4) + i + 5])
+        surface.blit(column3, [gamewidth / 5 + 2*column_space, (700 / 4) + i + 5])
+        surface.blit(column4, [gamewidth / 5 + 3*column_space, (700 / 4) + i + 5])
+
+        i += 39
+    con.close()
 
     pg.display.update()
 
@@ -210,6 +263,7 @@ while window:
         if button_leaderboard.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "leaderboard"
+                update_leaderboard()
 
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
