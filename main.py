@@ -1,4 +1,7 @@
 import math
+
+import sqlite3 as lite
+
 import time
 
 import kalaha
@@ -7,6 +10,7 @@ import pygame as pg
 from buttonclass import Button, imgButton
 from pygame import mixer
 import random
+from datetime import date
 
 pg.init()
 mixer.init()
@@ -105,6 +109,18 @@ def sound():
     mixer.music.set_volume(0.5)
     mixer.music.play()
 
+def update_database(stilling, resultat):
+    tidspunkt = date.today()
+    con = None
+    con = lite.connect("leaderboard.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO leaderbord(stilling, resultat, tidspunkt) VALUES('" + str(stilling) + "','" + str(resultat) + "', '" + str(tidspunkt) + "')")
+    con.commit()
+    con.close()
+
+def update_leaderboard():
+    print("hello")
+
 
 def generate(n, button_x, button_y):
     ball_x = ball.get_size()[0]
@@ -153,6 +169,7 @@ def generate_score_right(n):
         surface.blit(ball, ellipse2_points[i])
 
 
+
 def draw_game_choice():
     surface.fill(WHITE)
 
@@ -186,6 +203,7 @@ def draw_game(engine, player_status, bot_move):
         title = font.render('Player 2', True, BLACK)
     surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 2 * OFFSET))
 
+
     font = pg.font.SysFont('arial', 40)
     title = font.render(f'Bot moved: {bot_move}', True, BLACK)
     surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - 3 * OFFSET))
@@ -201,10 +219,45 @@ def draw_leaderboard():
     global gamestate
 
     font = pg.font.SysFont('arial', 40)
+
     title = font.render('Leaderboard', True, BLACK)
     surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
+
     back_button_leaderboard.draw(surface, 5, outline=BLACK)
+
+    con = None
+    con = lite.connect("leaderboard.db")
+    cur = con.cursor()
+
+    i = 35
+    column_space = 200
+
+    head1 = font.render(f'Spiller', True, black)
+    head2 = font.render(f'Stilling', True, black)
+    head3 = font.render(f'Resultat', True, black)
+    head4 = font.render(f'Dato', True, black)
+    surface.blit(head1, [gamewidth / 5, (700 / 4) + 5])
+    surface.blit(head2, [gamewidth / 5 + column_space, (700 / 4) + 5])
+    surface.blit(head3, [gamewidth / 5 + 2 * column_space, (700 / 4) + 5])
+    surface.blit(head4, [gamewidth / 5 + 3 * column_space, (700 / 4) + 5])
+
+
+
+    cur.execute('SELECT * FROM leaderbord')
+    rows = cur.fetchall()
+    for row in rows:
+        column1 = font.render('{:>5}'.format(str(row[1])), True, black)
+        column2 = font.render('{:30}'.format(str(row[2])), True, black)
+        column3 = font.render('{:60}'.format(row[3]), True, black)
+        column4 = font.render('{:90}'.format(row[4]), True, black)
+        surface.blit(column1, [gamewidth / 5, (700 / 4) + i + 5])
+        surface.blit(column2, [gamewidth / 5 + column_space, (700 / 4) + i + 5])
+        surface.blit(column3, [gamewidth / 5 + 2*column_space, (700 / 4) + i + 5])
+        surface.blit(column4, [gamewidth / 5 + 3*column_space, (700 / 4) + i + 5])
+
+        i += 39
+    con.close()
 
     pg.display.update()
 
