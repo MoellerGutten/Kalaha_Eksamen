@@ -459,6 +459,9 @@ while window:
             gameBoard.append(element)
         update_board(game_engine)
 
+    if gamestate == "game":
+        draw_game(game_engine, isplayer1, bot_move)
+
     if game_engine.check_win()[0]:
         gamestate = "victory"
 
@@ -471,9 +474,6 @@ while window:
 
     if gamestate == "start_menu":
         draw_start_screen()
-
-    if gamestate == "game":
-        draw_game(game_engine, isplayer1, bot_move)
 
     if gamestate == "leaderboard":
         draw_leaderboard()
