@@ -71,31 +71,3 @@ class Button:
 
     def get_y_pos(self):
         return self.y
-
-
-class imgButton:
-    def __init__(self, img, x, y):
-        self.img = img
-        self.button_width = self.img.get_width()
-        self.button_height = self.img.get_height()
-        self.imgRect = self.img.get_rect()
-        self.x = x
-        self.y = y
-        self.movespeed = 0
-
-    def draw(self):
-        surface.blit(self.img, (self.x,self.y))
-
-    def isOver(self):
-        # Pos is the mouse position or a tuple of (x,y) coordinates
-        pos = pg.mouse.get_pos()
-        if self.x < pos[0] < self.x + self.button_width:
-            if self.y < pos[1] < self.y + self.button_height:
-                return True
-        return False
-
-    def move_button(self):
-        stepsize = 1
-        self.movespeed = stepsize
-        surface.blit(self.img, (self.x, self.y))
-        self.x = self.x + self.movespeed
