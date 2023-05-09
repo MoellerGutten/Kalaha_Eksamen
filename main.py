@@ -4,7 +4,7 @@ import time
 import kalaha
 
 import pygame as pg
-from buttonclass import Button, imgButton
+from buttonclass import Button
 from pygame import mixer
 import random
 
