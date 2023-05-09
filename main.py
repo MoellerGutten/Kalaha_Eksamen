@@ -1,13 +1,9 @@
 import math
-
 import sqlite3 as lite
-
 import time
-
 import kalaha
-
 import pygame as pg
-from buttonclass import Button, imgButton
+from buttonclass import Button
 from pygame import mixer
 import random
 from datetime import date
@@ -32,7 +28,7 @@ def center_height(obj_height):
 
 
 WHITE = (255, 255, 255)
-black = (0,0,0)
+black = (0, 0, 0)
 LIGHT_GREY = (197, 197, 197)
 GREY = (100, 100, 100)
 BLACK = (0, 0, 0)
@@ -93,7 +89,6 @@ ellipse_x1 = [int(ellipse1.centerx-(ellipse1.width/2)), int(ellipse1.centerx)]
 ellipse_x2 = [int(ellipse2.centerx-(ellipse2.width/2)), int(ellipse2.centerx)]
 
 
-
 for i in range(72):
     ball_pos_x1 = random.randrange(ellipse_x1[0], ellipse_x1[1])
     ball_pos_y1 = random.randrange(ellipse1.y, ellipse1.y + ellipse1.height)
@@ -109,6 +104,7 @@ def sound():
     mixer.music.load(sounds[randomvalue])
     mixer.music.set_volume(0.5)
     mixer.music.play()
+
 
 def update_database(stilling1, stilling2, resultat):
     tidspunkt = date.today()
@@ -166,7 +162,6 @@ def generate_score_left(n):
 def generate_score_right(n):
     for i in range(n):
         surface.blit(ball, ellipse2_points[i])
-
 
 
 def draw_game_choice():
@@ -324,36 +319,47 @@ def update_board(engine):
     Scorerightbutton.draw_text(str(engine.board[6]))
 
 
-
+# updates the board arcording to the new move made so it is slow indead of instend
 def update_move(oldboard, newboard, engine):
+    # dict that contains the corresponding value, becuase the way the board is set up arcording to the board list
     correct_button_list = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 0, 13: 0, 12: 7, 11: 8, 10: 9, 9: 10, 8: 11, 7: 12}
     update_list = []
     updated_board = []
     starting_point = None
     y = 0
     i = 0
+    # for loop that makes a new board that has the location of the updated values
     for element in oldboard:
-        new_value =  newboard[y] - element
+        new_value = newboard[y] - element
         updated_board.append(new_value)
         y += 1
+    # for loop that appends the updated_board values if the location has been changed
     for element in updated_board:
         if element > 0:
             update_list.append(i)
+        # checks if it was the starting point of the move
         elif element < 0:
             update_list.append(i)
             starting_point = i
         i += 1
+    # sets starting_points variable to the index of where it is in update_list
     starting_point = update_list.index(starting_point)
     z = starting_point
+    # for loop that loops through update_list and slowly adds the new number to the buttons values
     for __ in range(len(update_list)):
+        # x variable that contains which button that needs to be updated
         x = f"boardbutton{correct_button_list[update_list[z]]}"
+        # num variable that contains what value in the game board it need to get
         num = update_list[z]
+        # if statement that checks if it is one of the goals, because it has a different variable name then just adding 1 number to it
         if num == 6:
             Scorerightbutton.draw_text(str(engine.board[6]))
         elif num == 13:
             Scoreleftbutton.draw_text(str(engine.board[13]))
         else:
+            # eval(x) turns the str value into a variable number, so the correct button gets updated
             eval(x).draw_text(str(engine.board[num]))
+        # updates the GUI
         pg.display.update()
         sound()
         pg.time.delay(250)
@@ -467,10 +473,10 @@ while window:
 
     if gamestate == "victory":
         draw_victory_screen(game_engine.check_win()[1],game_engine.board[6], game_engine.board[13])
-        time.sleep(5)
         gamestate = "start_menu"
         game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
         isplayer1 = True
+        time.sleep(5)
 
     if gamestate == "start_menu":
         draw_start_screen()

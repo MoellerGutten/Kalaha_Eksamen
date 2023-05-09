@@ -108,7 +108,7 @@ class kalaha:
             # give the test_board variable the value of the manipulated board from trymove() motified_board
             test_board = motified_board
             # runs a for loop six times that finds the best move from minimax() and simulates it with try_move() and adds the scores from try_move() to the scoreset dicts
-            for __ in range(3):
+            for __ in range(6):
                 bmove = self.minimax(True, test_board)
                 score, motified_board = self.try_move(test_board, bmove, test_board[bmove], False)
                 future_moves[i] += score
@@ -196,9 +196,10 @@ class kalaha:
                 else:
                     outcome -= 1
                 # minius the outcome variable with how good the enemyscore did using the funktion check_enemyscore()
+                print(outcome, "1")
                 outcome -= self.check_enemyscore(motified_board, False)
+                print(outcome, "2")
                 best_possible_move[y] = outcome
-            print(best_possible_move)
             best_move = max(best_possible_move, key=best_possible_move.get)
             return best_move
         else:
