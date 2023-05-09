@@ -353,7 +353,7 @@ def update_move(oldboard, newboard, engine):
     starting_point = update_list.index(starting_point)
     z = starting_point
     for __ in range(len(update_list)):
-        x = f"boardbutton{correct_button_list[update_list[z]]}"
+        x = f"boardbutton_list[{correct_button_list[update_list[z]]-1}]"
         num = update_list[z]
         if num == 6:
             Scorerightbutton.draw_text(str(engine.board[6]))
@@ -415,47 +415,47 @@ while window:
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(0, False)
-        if boardbutton2.isOver(gamestate):
+        if boardbutton_list[1].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(1, False)
-        if boardbutton3.isOver(gamestate):
+        if boardbutton_list[2].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(2, False)
-        if boardbutton4.isOver(gamestate):
+        if boardbutton_list[3].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(3, False)
-        if boardbutton5.isOver(gamestate):
+        if boardbutton_list[4].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(4, False)
-        if boardbutton6.isOver(gamestate):
+        if boardbutton_list[5].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
                     __, isplayer1 = game_engine.move(5, False)
-        if boardbutton7.isOver(gamestate):
+        if boardbutton_list[6].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     __, isplayer1 = game_engine.move(12, True)
-        if boardbutton8.isOver(gamestate):
+        if boardbutton_list[7].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     __, isplayer1 = game_engine.move(11, True)
-        if boardbutton9.isOver(gamestate):
+        if boardbutton_list[8].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     __, isplayer1 = game_engine.move(10, True)
-        if boardbutton10.isOver(gamestate):
+        if boardbutton_list[9].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     __, isplayer1 = game_engine.move(9, True)
-        if boardbutton11.isOver(gamestate):
+        if boardbutton_list[10].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if isplayer1:
                     __, isplayer1 = game_engine.move(8, True)
-        if boardbutton12.isOver(gamestate):
+        if boardbutton_list[11].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 sound()
                 if isplayer1:
