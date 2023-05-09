@@ -55,6 +55,8 @@ class Button:
             surface.blit(toWrite2, (self.x + (self.button_width / 2 - toWrite2.get_width() / 2), self.y + (self.button_height / 2 - toWrite2.get_height() / 2)))
             surface.blit(toWrite1, (self.x + (self.button_width / 2 - toWrite1.get_width() / 2), self.y + (self.button_height / 2 - toWrite1.get_height() / 2)))
 
+
+
     def isOver(self, gamestate):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         pos = pg.mouse.get_pos()

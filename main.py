@@ -284,8 +284,6 @@ def draw_victory_screen(who_won, stilling1, stilling2):
 
     update_database(stilling1, stilling2, who_won)
 
-    back_button.draw(surface, 5, outline=BLACK)
-
     pg.display.update()
 
 
@@ -451,13 +449,13 @@ while window:
                 sound()
                 if isplayer1:
                     __, isplayer1 = game_engine.move(7, True)
-
-    if gameBoard != game_engine.board:
-        update_move(gameBoard, game_engine.board, game_engine)
-        gameBoard = []
-        for element in game_engine.board:
-            gameBoard.append(element)
-        update_board(game_engine)
+    if gamestate == "game":
+        if gameBoard != game_engine.board:
+            update_move(gameBoard, game_engine.board, game_engine)
+            gameBoard = []
+            for element in game_engine.board:
+                gameBoard.append(element)
+            update_board(game_engine)
 
     if gamestate == "game":
         draw_game(game_engine, isplayer1, bot_move)
@@ -467,12 +465,12 @@ while window:
 
     if gamestate == "victory":
         draw_victory_screen(game_engine.check_win()[1],game_engine.board[6], game_engine.board[13])
+        time.sleep(4)
         gamestate = "start_menu"
-        game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
-        isplayer1 = True
-        time.sleep(5)
 
     if gamestate == "start_menu":
+        game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
+        isplayer1 = True
         draw_start_screen()
 
     if gamestate == "leaderboard":
