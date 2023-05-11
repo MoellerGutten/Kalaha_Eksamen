@@ -18,7 +18,7 @@ PI = math.pi
 
 RES = [WIDTH, HEIGHT]
 
-
+# For placing different objects and to reduce code
 def center_width(obj_width):
     return WIDTH / 2 - obj_width / 2
 
@@ -28,7 +28,6 @@ def center_height(obj_height):
 
 
 WHITE = (255, 255, 255)
-black = (0, 0, 0)
 LIGHT_GREY = (197, 197, 197)
 GREY = (100, 100, 100)
 BLACK = (0, 0, 0)
@@ -49,19 +48,15 @@ ball = pg.transform.scale(ball, (25, 25))
 
 gamestate = "start_menu"
 
+# Fits the board to the screen
 gameboard_img = pg.image.load("images/Kalaha_cut.png")
 gameboard_img = pg.transform.scale(gameboard_img, (1420, 353))
 
-window = True
-game_board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
-game_engine = kalaha.kalaha(game_board)
-isplayer1 = True
-isbot = False
-
+# Standard size for all buttons
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 75
 
-
+# Initializes all button objects
 button_start = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 425, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Start Game")
 button_leaderboard = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 500, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Leaderboard")
 button_quit = Button(LIGHT_GREY, center_width(BUTTON_WIDTH), 575, BUTTON_WIDTH, BUTTON_HEIGHT, "start_menu", "Quit")
@@ -71,19 +66,18 @@ back_button = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "game", "T
 back_button_leaderboard = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "leaderboard", "Tilbage")
 back_button_choice = Button(LIGHT_GREY, 50, 50, BUTTON_WIDTH, BUTTON_HEIGHT, "choice", "Tilbage")
 
+# Initializes the invisible buttons on the game board in a list
 boardbutton_list = []
-
 for i in range(6):
-    #(globals()['boardbutton%s' % (i+1)] =  Button(LIGHT_GREY, 204 + i * 105, 320, 65, 65, "game", ""))
     boardbutton_list.append(Button(LIGHT_GREY, 204 + i * 105, 320, 65, 65, "game", ""))
 for i in range(6):
-    #globals()['boardbutton%s' % (i+7)] =  Button(LIGHT_GREY, 204 + i * 105, 420, 65, 65, "game", "")
     boardbutton_list.append(Button(LIGHT_GREY, 204 + i * 105, 420, 65, 65, "game", ""))
 
-
+# Initializes seperately due to different dimensions
 Scoreleftbutton = Button(LIGHT_GREY, 90, 320, 90, 170, "game", "")
 Scorerightbutton = Button(LIGHT_GREY, 820, 320, 90, 170, "game", "")
 
+# Generates random points for the left and right scores
 ellipse1_points = []
 ellipse1 = pg.Rect(90,320,90,170)
 ellipse2_points = []
@@ -122,19 +116,25 @@ def update_database(stilling1, stilling2, resultat):
 
 
 def generate(n, button_x, button_y):
+    # Gets size of ball img
     ball_x = ball.get_size()[0]
     ball_y = ball.get_size()[1]
 
+    # Gets middle of button and ball
     pos_x = (button_x + ball_x)
     pos_y = (button_y + ball_y)
+
+    # if it only needs to generate a single ball, it generates in the middle of button
     if n == 1:
         surface.blit(ball, (pos_x, pos_y))
+
     if n > 1:
         points1 = []
         points2 = []
-
         for i in range(n):
+            # The first 6 balls are in an inner circle
             if n < 6:
+                # Splits the angle evenly among the circle
                 angle = i * (2 * PI / (n - 1)) - random.randrange(1, 2)
                 x = math.cos(angle) * ball_x + pos_x
                 y = math.sin(angle) * ball_x + pos_y
@@ -148,6 +148,7 @@ def generate(n, button_x, button_y):
                 y = math.sin(angle) * ball_x + pos_y
                 points1.append((x, y))
                 surface.blit(ball, points1[i])
+        # Generates the rest of the balls in an outer circle
         if n > 6:
             for i in range(n):
                 angle = i * (2 * PI / (n - 6)) - random.randrange(1, 2)
@@ -157,17 +158,17 @@ def generate(n, button_x, button_y):
                 surface.blit(ball, points2[i])
         surface.blit(ball, (pos_x, pos_y))
 
-
+# Generates the balls generated above in the left score
 def generate_score_left(n):
     for i in range(n):
         surface.blit(ball, ellipse1_points[i])
 
-
+# Generates the balls generated above in the right score
 def generate_score_right(n):
     for i in range(n):
         surface.blit(ball, ellipse2_points[i])
 
-
+# Draws screen with buttons to choose opponent
 def draw_game_choice():
     surface.fill(WHITE)
 
@@ -184,7 +185,7 @@ def draw_game_choice():
 
     pg.display.update()
 
-
+# Main game screen
 def draw_game(engine, player_status, bot_move):
     surface.fill(WHITE)
 
@@ -210,7 +211,7 @@ def draw_game(engine, player_status, bot_move):
 
     screen_display.update()
 
-
+# Draws leaderboard with data from database
 def draw_leaderboard():
     surface.fill(WHITE)
 
@@ -230,9 +231,9 @@ def draw_leaderboard():
     i = 35
     column_space = 250
 
-    head1 = font.render(f'Resultat', True, black)
-    head2 = font.render(f'Stilling', True, black)
-    head4 = font.render(f'Dato', True, black)
+    head1 = font.render(f'Resultat', True, BLACK)
+    head2 = font.render(f'Stilling', True, BLACK)
+    head4 = font.render(f'Dato', True, BLACK)
     surface.blit(head1, [WIDTH / 6, (700 / 4) + 5])
     surface.blit(head2, [WIDTH / 6 + column_space, (700 / 4) + 5])
     surface.blit(head4, [WIDTH / 6 + 2 * column_space, (700 / 4) + 5])
@@ -242,9 +243,9 @@ def draw_leaderboard():
     cur.execute('SELECT * FROM leaderbord')
     rows = cur.fetchall()
     for row in rows:
-        column1 = font.render('{:>5}'.format(str(row[2])), True, black)
-        column2 = font.render('{:30}'.format(str(row[1])), True, black)
-        column3 = font.render('{:60}'.format(row[3]), True, black)
+        column1 = font.render('{:>5}'.format(str(row[2])), True, BLACK)
+        column2 = font.render('{:30}'.format(str(row[1])), True, BLACK)
+        column3 = font.render('{:60}'.format(row[3]), True, BLACK)
         surface.blit(column1, [WIDTH / 6, (700 / 4) + i + 5])
         surface.blit(column2, [WIDTH / 6 + column_space, (700 / 4) + i + 5])
         surface.blit(column3, [WIDTH / 6 + 2*column_space, (700 / 4) + i + 5])
@@ -254,7 +255,7 @@ def draw_leaderboard():
 
     pg.display.update()
 
-
+# The start screen where you can navigate to either game or leaderboard
 def draw_start_screen():
     surface.fill(WHITE)
 
@@ -272,7 +273,7 @@ def draw_start_screen():
 
     pg.display.update()
 
-
+# Temp victory screen that dissapears automatically
 def draw_victory_screen(who_won, stilling1, stilling2):
     surface.fill(WHITE)
 
@@ -282,29 +283,31 @@ def draw_victory_screen(who_won, stilling1, stilling2):
     title = font.render(who_won, True, BLACK)
     surface.blit(title, (center_width(title.get_width()), center_height(title.get_height()) - OFFSET))
 
+    # appends score from previous game
     update_database(stilling1, stilling2, who_won)
 
     pg.display.update()
 
 
 def update_board(engine):
+    # Draws all the balls on the board
     for i in range(12):
         if i <= 5:
             generate(engine.board[i], boardbutton_list[i].get_x_pos(), boardbutton_list[i].get_y_pos())
         elif i >= 6:
             generate(engine.board[18 - i], boardbutton_list[i].get_x_pos(), boardbutton_list[i].get_y_pos())
-
+    # Draws balls in goals
     generate_score_left(engine.board[13])
     generate_score_right(engine.board[6])
 
-
+    # Draws the score text
     for i in range(12):
         if i <= 5:
             boardbutton_list[i].draw_text(str(engine.board[i]))
         elif i >= 6:
             boardbutton_list[i].draw_text(str(engine.board[18 - i]))
 
-
+    # Draws score on goals
     Scoreleftbutton.draw_text(str(engine.board[13]))
     Scorerightbutton.draw_text(str(engine.board[6]))
 
@@ -374,6 +377,8 @@ while window:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             window = False
+        # Sequence detects button clicks (Has to be in while loop to prevent lag)
+        # Changes gametate according to button
         if button_start.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "choice"
@@ -399,7 +404,7 @@ while window:
         if button_quit.isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 gamestate = "quit"
-
+        # Detects clicks on game button and moves accordingly
         if boardbutton_list[0].isOver(gamestate):
             if event.type == pg.MOUSEBUTTONUP:
                 if not isplayer1 and not isbot:
@@ -449,6 +454,7 @@ while window:
                 sound()
                 if isplayer1:
                     __, isplayer1 = game_engine.move(7, True)
+    # Makes a move one at a time, instead of all at once
     if gamestate == "game":
         if gameBoard != game_engine.board:
             update_move(gameBoard, game_engine.board, game_engine)
@@ -459,15 +465,15 @@ while window:
 
     if gamestate == "game":
         draw_game(game_engine, isplayer1, bot_move)
-
+    # Detects win and changes to victory screen
     if game_engine.check_win()[0]:
         gamestate = "victory"
-
+    # Restarts after 4 secs and goes to main menu
     if gamestate == "victory":
         draw_victory_screen(game_engine.check_win()[1],game_engine.board[6], game_engine.board[13])
         time.sleep(4)
         gamestate = "start_menu"
-
+    # Resets game and draws screen
     if gamestate == "start_menu":
         game_engine.board = [6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0]
         isplayer1 = True
